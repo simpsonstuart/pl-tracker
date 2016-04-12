@@ -1,5 +1,16 @@
 angular.module('MyApp')
-  .controller('ProfileCtrl', function($scope, $auth, toastr, Account) {
+  .controller('ProfileCtrl', function($scope, $auth, toastr, Account, $http) {
+      var ctrl            = this;
+      getDevices();
+      ctrl.selectedSort = 'name';
+
+      //gets list of devices that I have checked out
+      function getDevices() {
+          $http.get('http://localhost:3000/devices').success(function (data) {
+              ctrl.devices = _.filter(data, ['checked_out_user', currentUser]);
+          });
+      }
+
     $scope.getProfile = function() {
       Account.getProfile()
         .then(function(response) {

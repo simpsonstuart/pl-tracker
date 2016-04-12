@@ -417,3 +417,202 @@ ul {
     opacity: 1;
   }
 }
+
+.add_new_device {
+  width: 248px;
+  margin: auto;
+  text-align: center;
+  padding: 30px;
+  background-color: #FFFFFF;
+  box-shadow: 1px 6px 16px 0px rgba(0, 0, 0, 0.3);
+}
+
+.device_param_box {
+  margin-bottom: 20px;
+  padding: 5px;
+  width: 150px;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #4CAF50;
+  color: white;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  box-shadow: 0px 0px 16px 0px rgb(115, 115, 115);
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2
+}
+tr:nth-child(odd) {
+  background-color: #ffffff
+}
+
+tr:hover {
+  background-color: #92C292;
+  cursor: pointer
+}
+
+.devices_list {
+  padding: 30px;
+  margin: auto;
+  width: 90%;
+}
+
+.spacer {
+  padding: 25px;
+  margin: auto;
+  width: 180px;
+}
+
+.spacer_edit {
+  padding-top: 25px;
+  margin: auto;
+}
+
+.selected {
+  padding: 7px;
+  margin-bottom: 23px;
+}
+
+.button {
+  padding: 7px;
+}
+
+h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  margin-left: 0px;
+  font-weight: normal;
+}
+
+.input_style {
+  padding: 7px;
+  margin-bottom: 5px;
+  color: #555;
+  border-radius: 3px;
+  background-color: #fff;
+  width: 190px;
+  border: 1px solid #ccc;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  transition: border linear .2s, box-shadow linear .2s;
+}
+
+.input_style:focus {
+  border-color: rgba(82, 168, 236, 0.8);
+  outline: 0;
+  outline: thin dotted \9;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+}
+.menu {
+  background: #4C4C4C;
+  margin-top: 0;
+  height: 60px;
+  border-bottom: solid #8E8E8E 3px;
+  box-shadow: 1px 6px 16px 0px rgba(0, 0, 0, 0.3);
+}
+.menu_padding {
+  width: 550px;
+  height: 30px;
+  float: right;
+  padding: 15px;
+  margin-right: 2%;
+  margin-left: auto;
+}
+.main_link {
+  color: #fff;
+  text-decoration: none;
+  margin-right: 5px;
+  padding-right: 14px;
+  border-right: solid #888 1px;
+}
+.last_link {
+  color: #fff;
+  text-decoration: none;
+  margin-right: 5px;
+  padding-right: 14px;
+}
+.main_logo {
+  margin-left: 2%;
+  margin-top: 8px;
+}
+a {
+  color: #999;
+}
+a:hover {
+  color: #0b97c4;
+}
+body {
+  background-color: #D8D8D8;
+}
+.td_remove {
+  background-color: #FFFFFF;
+  border-left: solid 1px #888;
+  border-bottom: none;
+}
+.heading_add {
+  margin: auto;
+  text-align: center;
+  padding: 20px;
+}
+
+@media
+only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px)  {
+
+  /* Force table to not be like tables anymore */
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
+
+  /* Hide table headers (but not display: none;, for accessibility) */
+  th {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  tr { border: 1px solid #ccc; }
+
+  td {
+    /* Behave  like a "row" */
+    border: none;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    padding-left: 50%;
+  }
+
+  td:before {
+    /* Now like a table header */
+    position: absolute;
+    /* Top/left values mimic padding */
+    top: 6px;
+    left: 6px;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+  }
+
+  /*
+  Label the data
+  */
+  td:nth-of-type(1):before { content: "Device Name"; }
+  td:nth-of-type(2):before { content: "Device Type"; }
+  td:nth-of-type(3):before { content: "Device S/N"; }
+  td:nth-of-type(4):before { content: "Manufacturer"; }
+  td:nth-of-type(5):before { content: "Model"; }
+  td:nth-of-type(6):before { content: "SW Version"; }
+  td:nth-of-type(7):before { content: "Screen Resolution"; }
+  td:nth-of-type(8):before { content: "RAM"; }
+  td:nth-of-type(9):before { content: "Checked Out"; }
+}
