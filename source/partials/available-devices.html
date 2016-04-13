@@ -1,5 +1,5 @@
 <div>
-  <div  ng-hide="ctrl.hideDeviceList" class="devices_list">
+  <div class="devices_list">
     <h2>Available Devices</h2>
     <div class="sort">
       <p>Sort by:</p>
@@ -33,7 +33,7 @@
           <td>{{device.screen_resolution}}</td>
           <td>{{device.device_ram}}</td>
         </div>
-          <td class="td_remove"><button ng-click="ctrl.removeItem(device.id, $index); $event.stopPropagation()">CheckOut</button></td>
+          <td class="td_remove"><button ng-click="ctrl.checkOutDevice(device); $event.stopPropagation()">CheckOut</button></td>
       </tr>
     </table>
   </div>

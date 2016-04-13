@@ -6,9 +6,15 @@ angular.module('MyApp')
 
       //gets list of devices that I have checked out
       function getDevices() {
-          $http.get('http://localhost:3000/devices').success(function (data) {
-              ctrl.devices = _.filter(data, ['checked_out_user', currentUser]);
-          });
+          Account.getProfile()
+              .then(function(response) {
+                  $http.get('http://localhost:3000/devices').success(function (data) {
+                      ctrl.devices = _.filter(data, ['checked_out_user', response.data.displayName]);
+                  });
+              })
+              .catch(function(response) {
+                  toastr.error(response.data.message, response.status);
+              });
       }
 
     $scope.getProfile = function() {

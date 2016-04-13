@@ -497,7 +497,7 @@ app.post('/savedevices',function(req,res) {
         if (err)
             res.send(err);
 
-        // get and return all the todos after you create another
+        // get and return all the devices after you create another
         Devices.find(function(err, devices) {
             if (err)
                 res.send(err);
@@ -505,9 +505,42 @@ app.post('/savedevices',function(req,res) {
         });
     });
 });
+
+//endpoint for checkout
+app.post('/checkout', ensureAuthenticated, function(req, res) {
+    console.log(req.body);
+  Devices.findById(req.body.id, function(err, Devices) {
+    if (!Devices) {
+      return res.status(400).send({ message: 'Device not found' });
+    }
+    Devices.checked_out_user = req.body.checked_out_user;
+    Devices.save(function(err) {
+      res.status(200).end();
+    });
+  });
+});
+
+app.post('/updatedevices', ensureAuthenticated, function(req, res) {
+    Devices.findById(req.body.id, function(err, Devices) {
+        if (!Devices) {
+            return res.status(400).send({ message: 'Device not found' });
+        }
+        Devices.device_name = req.body.device_name;
+        Devices.device_type = req.body.device_type;
+        Devices.device_sn = req.body.device_sn;
+        Devices.device_manufacturer = req.body.device_manufacturer;
+        Devices.device_model = req.body.device_model;
+        Devices.sw_version = req.body.sw_version;
+        Devices.screen_resolution = req.body.screen_resolution;
+        Devices.device_ram = req.body.device_ram;
+        Devices.save(function(err) {
+            res.status(200).end();
+        });
+    });
+});
+
 //endpoint for delete device
 app.post('/deletedevice',function(req,res) {
-    console.log(req.body);
     Devices.remove({
         _id : req.body.id
     }, function(err, devices) {

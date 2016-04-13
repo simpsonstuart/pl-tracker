@@ -50,9 +50,7 @@ angular.module('MyApp')
       };
 
       ctrl.saveUpdatedData = function () {
-          $http.post('http://localhost:3000/deletedevice',{id: ctrl.deviceData._id}).success(function(data, status) {
-          });
-          $http.post('http://localhost:3000/savedevices', {device_name: ctrl.deviceData.device_name, device_type: ctrl.deviceData.device_type, device_sn: ctrl.deviceData.device_sn, device_manufacturer: ctrl.deviceData.device_manufacturer, device_model: ctrl.deviceData.device_model, sw_version: ctrl.deviceData.sw_version, screen_resolution: ctrl.deviceData.screen_resolution, device_ram: ctrl.deviceData.device_ram, checked_out_user: ctrl.deviceData.checked_out_user}).success(function(data, status) {
+          $http.post('http://localhost:3000/updatedevices', {id: ctrl.deviceData._id, device_name: ctrl.deviceData.device_name, device_type: ctrl.deviceData.device_type, device_sn: ctrl.deviceData.device_sn, device_manufacturer: ctrl.deviceData.device_manufacturer, device_model: ctrl.deviceData.device_model, sw_version: ctrl.deviceData.sw_version, screen_resolution: ctrl.deviceData.screen_resolution, device_ram: ctrl.deviceData.device_ram}).success(function(data, status) {
           });
           getDevices();
           ctrl.showEditDevice = false;

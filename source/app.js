@@ -36,6 +36,7 @@ angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.
             url: '/available-devices',
             templateUrl: 'partials/available-devices.html',
             controller: 'AvailDevicesCtrl',
+            controllerAs: 'ctrl',
             resolve: {
                 loginRequired: loginRequired
             }
@@ -44,6 +45,7 @@ angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.
             url: '/checked-out',
             templateUrl: 'partials/checked-out.html',
             controller: 'CheckedOutCtrl',
+            controllerAs: 'ctrl',
             resolve: {
                 loginRequired: loginRequired
             }
@@ -57,6 +59,7 @@ angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.
         url: '/profile',
         templateUrl: 'partials/profile.html',
         controller: 'ProfileCtrl',
+        controllerAs: 'ctrl',
         resolve: {
           loginRequired: loginRequired
         }
@@ -82,14 +85,6 @@ angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.
 
     $authProvider.bitbucket({
       clientId: 'ap42yBVbAJRXxym6M4'
-    });
-
-    $authProvider.oauth2({
-      name: 'foursquare',
-      url: '/auth/foursquare',
-      clientId: 'MTCEJ3NGW2PNNB31WOSBFDSAD4MTHYVAZ1UKIULXZ2CVFC2K',
-      redirectUri: window.location.origin || window.location.protocol + '//' + window.location.host,
-      authorizationEndpoint: 'https://foursquare.com/oauth2/authenticate'
     });
 
     function skipIfLoggedIn($q, $auth) {
