@@ -508,7 +508,6 @@ app.post('/savedevices',function(req,res) {
 
 //endpoint for checkout
 app.post('/checkout', ensureAuthenticated, function(req, res) {
-    console.log(req.body);
   Devices.findById(req.body.id, function(err, Devices) {
     if (!Devices) {
       return res.status(400).send({ message: 'Device not found' });
@@ -518,6 +517,19 @@ app.post('/checkout', ensureAuthenticated, function(req, res) {
       res.status(200).end();
     });
   });
+});
+
+//endpoint for checkout
+app.post('/checkindevice', ensureAuthenticated, function(req, res) {
+    Devices.findById(req.body.id, function(err, Devices) {
+        if (!Devices) {
+            return res.status(400).send({ message: 'Device not found' });
+        }
+        Devices.checked_out_user = 'N/A';
+        Devices.save(function(err) {
+            res.status(200).end();
+        });
+    });
 });
 
 app.post('/updatedevices', ensureAuthenticated, function(req, res) {

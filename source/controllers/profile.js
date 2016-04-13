@@ -17,6 +17,13 @@ angular.module('MyApp')
               });
       }
 
+      ctrl.checkInDevice = function (deviceId) {
+          $http.post('http://localhost:3000/checkindevice', {id: deviceId}).success(function(data, status) {
+              getDevices();
+              toastr.success('Device Checked In');
+          });
+      };
+
     $scope.getProfile = function() {
       Account.getProfile()
         .then(function(response) {

@@ -36,7 +36,7 @@
                         <td>{{device.screen_resolution}}</td>
                         <td>{{device.device_ram}}</td>
                     </div>
-                    <td class="td_remove"><button ng-click="ctrl.removeItem(device.id, $index); $event.stopPropagation()">CheckIn</button></td>
+                    <td class="td_remove"><button ng-click="ctrl.checkInDevice(device._id); $event.stopPropagation()">CheckIn</button></td>
                 </tr>
             </table>
         </div>

@@ -16,14 +16,13 @@ angular.module('MyApp')
                 .then(function(response) {
                     ctrl.loggedInUser = response.data.displayName;
                     $http.post('http://localhost:3000/checkout', {id: device._id, checked_out_user: ctrl.loggedInUser}).success(function(data, status) {
+                        getDevices();
                         toastr.info("Checked Out!");
                     });
                 })
                 .catch(function(response) {
                     toastr.error(response.data.message, response.status);
                 });
-
-            getDevices();
 
         };
 
