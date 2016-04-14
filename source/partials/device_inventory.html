@@ -1,14 +1,14 @@
 <div>
   <div>
-    <div ng-hide="ctrl.hideDeviceList" class="devices_list">
+    <div class="devices_list">
       <h2>Device Inventory</h2>
       <div class="sort">
         <p>Sort by:</p>
         <select id="sort_select" class="selected" data-ng-model="ctrl.selectedSort">
-          <option value="name">Name A-Z</option>
-          <option value="-name">Name Z-A</option>
-          <option value="ram">RAM Least First</option>
-          <option value="-ram">RAM Most First</option>
+          <option value="device_name">Name A-Z</option>
+          <option value="-device_name">Name Z-A</option>
+          <option value="device_ram">RAM Least First</option>
+          <option value="-device_ram">RAM Most First</option>
         </select>
       </div>
       <table>
@@ -25,7 +25,7 @@
           <th></th>
         </tr>
 
-        <tr ng-repeat="device in ctrl.devices track by $index | orderBy: [ctrl.selectedSort, 'name']" ng-click="ctrl.editDevice(device)" class="device-list">
+        <tr ng-repeat="device in ctrl.devices | orderBy: [ctrl.selectedSort, 'device_name']" ui-sref="edit-device({device: device})" class="device-list">
           <div class="text">
             <td>{{device.device_name}}</td>
             <td>{{device.device_type}}</td>
@@ -41,44 +41,35 @@
         </tr>
       </table>
       <div class="spacer">
-        <button class="button" ng-click="ctrl.toggleAddNew()">Add Device</button>
+        <button class="button" ui-sref="add-device">Add Device</button>
       </div>
     </div>
+      <div class="devices_list">
+          <h2>User Management</h2>
+          <div class="sort">
+              <p>Sort by:</p>
+              <select id="sort_select_user" class="selected" data-ng-model="ctrl.selectedSortUser">
+                  <option value="name">Name A-Z</option>
+                  <option value="-name">Name Z-A</option>
+              </select>
+          </div>
+          <table>
+              <tr>
+                  <th>Name</th>
+                  <th>Role</th>
+                  <th>Email</th>
+                  <th></th>
+              </tr>
 
-    <div class="devices-list" ng-show="ctrl.showEditDevice">
-      <h2 class="heading_add">Edit Device</h2>
-      <div class="add_new_device">
-        <input class="input_style" type="text" ng-model="ctrl.deviceData.device_name" placeholder="Device Name">
-        <input class="input_style" type="text" ng-model="ctrl.deviceData.device_type" placeholder="Device Type">
-        <input class="input_style" type="text" ng-model="ctrl.deviceData.device_sn" placeholder="Device S/N">
-        <input class="input_style" type="text" ng-model="ctrl.deviceData.device_manufacturer" placeholder="Manufacturer">
-        <input class="input_style" type="text" ng-model="ctrl.deviceData.device_model" placeholder="Model">
-        <input class="input_style" type="text" ng-model="ctrl.deviceData.sw_version" placeholder="Software Version">
-        <input class="input_style" type="text" ng-model="ctrl.deviceData.screen_resolution" placeholder="Screen Resolution">
-        <input class="input_style" type="text" ng-model="ctrl.deviceData.device_ram" placeholder="Device RAM">
-        <div class="spacer_edit">
-          <button class="button" ng-click="ctrl.cancel()">Cancel</button>
-          <button class="button" ng-click="ctrl.saveUpdatedData()">Save</button>
-        </div>
+              <tr ng-repeat="user in ctrl.users track by $index | orderBy: [ctrl.selectedSortUser, 'name']" class="device-list">
+                  <div class="text">
+                      <td>{{user.displayName}}</td>
+                      <td>{{user.role}}</td>
+                      <td>{{user.email}}</td>
+                  </div>
+                  <td class="td_remove"><button ng-click="ctrl.removeUser(device._id); $event.stopPropagation()">X</button></td>
+              </tr>
+          </table>
       </div>
-    </div>
-
-    <div class="devices-list" ng-show="ctrl.showAddDevice">
-      <h2 class="heading_add">Add a Device</h2>
-      <div class="add_new_device">
-        <input class="input_style" type="text" ng-model="ctrl.device_name" placeholder="Device Name">
-        <input class="input_style" type="text" ng-model="ctrl.device_type" placeholder="Device Type">
-        <input class="input_style" type="text" ng-model="ctrl.device_sn" placeholder="Device S/N">
-        <input class="input_style" type="text" ng-model="ctrl.device_manufacturer" placeholder="Manufacturer">
-        <input class="input_style" type="text" ng-model="ctrl.device_model" placeholder="Model">
-        <input class="input_style" type="text" ng-model="ctrl.sw_version" placeholder="Software Version">
-        <input class="input_style" type="text" ng-model="ctrl.screen_resolution" placeholder="Screen Resolution">
-        <input class="input_style" type="text" ng-model="ctrl.device_ram" placeholder="Device RAM">
-        <div class="spacer_edit">
-          <button class="button" ng-click="ctrl.cancel()">Cancel</button>
-          <button class="button" ng-click="ctrl.saveData()">Save</button>
-        </div>
-      </div>
-    </div>
   </div>
 </div>

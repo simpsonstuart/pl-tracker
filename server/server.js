@@ -1,9 +1,3 @@
-/**
- * Satellizer Node.js Example
- * (c) 2015 Sahat Yalkabov
- * License: MIT
- */
-
 var path = require('path');
 var qs = require('querystring');
 
@@ -24,6 +18,7 @@ var config = require('./config');
 var userSchema = new mongoose.Schema({
   email: { type: String, unique: true, lowercase: true },
   password: { type: String, select: false },
+  role: String,
   displayName: String,
   picture: String,
   bitbucket: String,
@@ -567,6 +562,7 @@ app.post('/deletedevice',function(req,res) {
         });
     });
 });
+
 //gets list of devices from database
 app.get('/devices',function(req,res){
         // use mongoose to get all devices in the database
@@ -580,6 +576,18 @@ app.get('/devices',function(req,res){
         });
 });
 
+//gets list of users from database
+app.get('/users',function(req,res){
+    // use mongoose to get all users in the database
+    User.find(function(err, users) {
+
+        // if there is an error retrieving, send the error. nothing after res.send(err) will execute
+        if (err)
+            res.send(err);
+
+        res.json(users); // return all users in JSON format
+    });
+});
 
 /*
  |--------------------------------------------------------------------------

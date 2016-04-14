@@ -4,10 +4,10 @@
         <div class="sort">
             <p>Sort by:</p>
             <select id="sort_select" class="selected" data-ng-model="ctrl.selectedSort">
-                <option value="name">Name A-Z</option>
-                <option value="-name">Name Z-A</option>
-                <option value="ram">RAM Least First</option>
-                <option value="-ram">RAM Most First</option>
+                <option value="device_name">Name A-Z</option>
+                <option value="-device_name">Name Z-A</option>
+                <option value="device_ram">RAM Least First</option>
+                <option value="-device_ram">RAM Most First</option>
             </select>
         </div>
         <table>
@@ -22,7 +22,7 @@
                 <th>RAM</th>
                 <th>Checked Out Too</th>
             </tr>
-            <tr ng-repeat="device in ctrl.devices track by $index | orderBy: [ctrl.selectedSort, 'name']" class="device-list">
+            <tr ng-repeat="device in ctrl.devices | orderBy: [ctrl.selectedSort, 'device_name']" class="device-list">
                 <div class="text">
                     <td>{{device.device_name}}</td>
                     <td>{{device.device_type}}</td>

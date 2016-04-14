@@ -18,7 +18,7 @@
   <nav class ="menu">
     <a href="#/"><img class="main_logo" src="/img/pl_logo.svg" alt="P&L Logo" height="40" width="162"></a>
     <div class="menu_padding" ng-if="isAuthenticated()">
-      <a class="main_link" href="#/device-inventory">Device Management</a>
+      <a class="main_link" href="#/device-inventory">Administration</a>
       <a class="main_link" href="#/available-devices">Available Devices</a>
       <a class="main_link" href="#/checked-out">Checked Out</a>
       <a class="last_link" href="#/profile">Profile</a>
@@ -46,6 +46,8 @@
 <script src="/directives/passwordMatch.js"></script>
 <script src="/controllers/HomeCtrl.js"></script>
 <script src="/controllers/InventoryCtrl.js"></script>
+<script src="/controllers/AddDeviceCtrl.js"></script>
+<script src="/controllers/EditDeviceCtrl.js"></script>
 <script src="/controllers/login.js"></script>
 <script src="/controllers/signup.js"></script>
 <script src="/controllers/logout.js"></script>

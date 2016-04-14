@@ -1,12 +1,7 @@
 angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.router', 'satellizer'])
   .config(function($stateProvider, $urlRouterProvider, $authProvider) {
     $stateProvider
-        .state('home', {
-            url: '/',
-            controller: 'HomeCtrl',
-            controllerAs: 'ctrl',
-            templateUrl: 'partials/home.html'
-        })
+
       .state('device-inventory', {
         url: '/device-inventory',
         controller: 'InventoryCtrl',
@@ -50,6 +45,27 @@ angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.
                 loginRequired: loginRequired
             }
         })
+        .state('add-device', {
+            url: '/add-device',
+            templateUrl: 'partials/add-device.html',
+            controller: 'AddDeviceCtrl',
+            controllerAs: 'ctrl',
+            resolve: {
+                loginRequired: loginRequired
+            }
+        })
+        .state('edit-device', {
+            url: '/edit-device',
+            params: {
+                device: ''
+            },
+            templateUrl: 'partials/edit-device.html',
+            controller: 'EditDeviceCtrl',
+            controllerAs: 'ctrl',
+            resolve: {
+                loginRequired: loginRequired
+            }
+        })
       .state('logout', {
         url: '/logout',
         template: null,
@@ -65,7 +81,7 @@ angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.
         }
       });
 
-    $urlRouterProvider.otherwise('/login');
+    $urlRouterProvider.otherwise('/available-devices');
 
     $authProvider.google({
       clientId: '510557559466-p84g6egngrl4m2smhva0v680o6suaf0c.apps.googleusercontent.com'

@@ -1,6 +1,7 @@
 angular.module('MyApp')
   .controller('ProfileCtrl', function($scope, $auth, toastr, Account, $http) {
       var ctrl            = this;
+      ctrl.selectedSort = 'name';
       getDevices();
       ctrl.selectedSort = 'name';
 

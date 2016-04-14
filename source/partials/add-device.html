@@ -1,0 +1,17 @@
+<div class="devices-list">
+    <h2 class="heading_add">Add a Device</h2>
+    <div class="add_new_device">
+        <input class="input_style" type="text" ng-model="ctrl.device_name" placeholder="Device Name">
+        <input class="input_style" type="text" ng-model="ctrl.device_type" placeholder="Device Type">
+        <input class="input_style" type="text" ng-model="ctrl.device_sn" placeholder="Device S/N">
+        <input class="input_style" type="text" ng-model="ctrl.device_manufacturer" placeholder="Manufacturer">
+        <input class="input_style" type="text" ng-model="ctrl.device_model" placeholder="Model">
+        <input class="input_style" type="text" ng-model="ctrl.sw_version" placeholder="Software Version">
+        <input class="input_style" type="text" ng-model="ctrl.screen_resolution" placeholder="Screen Resolution">
+        <input class="input_style" type="text" ng-model="ctrl.device_ram" placeholder="Device RAM">
+        <div class="spacer_edit">
+            <button class="button" ng-click="ctrl.cancel()">Cancel</button>
+            <button class="button" ng-click="ctrl.saveData()">Save</button>
+        </div>
+    </div>
+</div>
