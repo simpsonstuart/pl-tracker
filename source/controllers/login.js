@@ -1,11 +1,20 @@
 angular.module('MyApp')
-  .controller('LoginCtrl', function($scope, $location, $auth, toastr, $state) {
+  .controller('LoginCtrl', function($scope, $location, $auth, toastr, $state, Account) {
     $scope.login = function() {
       $auth.login($scope.user)
         .then(function() {
-          toastr.success('You have successfully signed in!');
-            
-            $state.go('available-devices');
+            Account.getProfile()
+                .then(function (response) {
+                    if (response.data.role !== "Deactivated") {
+                        toastr.success('You have successfully signed in!');
+                        $state.go('available-devices');
+                    } else {
+                        $state.go('deactivated');
+                    }
+                })
+                .catch(function (response) {
+                    toastr.error(response.data.message, response.status);
+                })
         })
         .catch(function(error) {
           toastr.error(error.data.message, error.status);
@@ -14,8 +23,18 @@ angular.module('MyApp')
     $scope.authenticate = function(provider) {
       $auth.authenticate(provider)
         .then(function() {
-          toastr.success('You have successfully signed in with ' + provider + '!');
-          $location.path('/available-devices');
+            Account.getProfile()
+                .then(function (response) {
+                    if (response.data.role !== "Deactivated") {
+                        toastr.success('You have successfully signed in with ' + provider + '!');
+                        $location.path('/available-devices');
+                    } else {
+                        $state.go('deactivated');
+                    }
+                })
+                .catch(function (response) {
+                    toastr.error(response.data.message, response.status);
+                })
         })
         .catch(function(error) {
           if (error.error) {
