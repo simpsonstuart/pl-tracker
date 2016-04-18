@@ -1,7 +1,7 @@
 angular.module('MyApp')
     .controller('AvailDevicesCtrl', function($scope, $http, Account, toastr) {
         var ctrl = this;
-        ctrl.selectedSort = 'name';
+        ctrl.selectedSort = 'device_name';
 
         getDevices();
 

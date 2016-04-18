@@ -185,7 +185,8 @@ app.post('/auth/signup', function(req, res) {
     var user = new User({
       displayName: req.body.displayName,
       email: req.body.email,
-      password: req.body.password
+      password: req.body.password,
+      role: 'Deactivated'
     });
     user.save(function(err, result) {
       if (err) {
@@ -253,6 +254,7 @@ app.post('/auth/google', function(req, res) {
           user.google = profile.sub;
           user.picture = profile.picture.replace('sz=50', 'sz=200');
           user.displayName = profile.name;
+          user.role = 'Deactivated';
           user.save(function(err) {
             var token = createJWT(user);
             res.send({ token: token });
@@ -318,6 +320,7 @@ app.post('/auth/github', function(req, res) {
           user.github = profile.id;
           user.picture = profile.avatar_url;
           user.displayName = profile.name;
+          user.role = 'Deactivated';
           user.save(function() {
             var token = createJWT(user);
             res.send({ token: token });
@@ -386,6 +389,7 @@ app.post('/auth/live', function(req, res) {
           var newUser = new User();
           newUser.live = profile.id;
           newUser.displayName = profile.name;
+          newUser.role = 'Deactivated';
           newUser.save(function() {
             var token = createJWT(newUser);
             res.send({ token: token });
@@ -463,6 +467,7 @@ app.post('/auth/bitbucket', function(req, res) {
             user.email = email;
             user.picture = profile.links.avatar.href;
             user.displayName = profile.display_name;
+            user.role = 'Deactivated';
             user.save(function() {
               var token = createJWT(user);
               res.send({ token: token });
@@ -527,6 +532,20 @@ app.post('/checkindevice', ensureAuthenticated, function(req, res) {
     });
 });
 
+//endpoint for set role
+app.post('/setabstractionrole', ensureAuthenticated, function(req, res) {
+    User.findById(req.body.id, function(err, User) {
+        if (!User) {
+            return res.status(400).send({ message: 'User not found' });
+        }
+        User.role = req.body.role;
+        User.save(function(err) {
+            res.status(200).end();
+        });
+    });
+});
+
+//endpoint for edit device
 app.post('/updatedevices', ensureAuthenticated, function(req, res) {
     Devices.findById(req.body.id, function(err, Devices) {
         if (!Devices) {
@@ -559,6 +578,23 @@ app.post('/deletedevice',function(req,res) {
             if (err)
                 res.send(err);
             res.json(devices);
+        });
+    });
+});
+
+//endpoint for delete user
+app.post('/deleteuser',function(req,res) {
+    User.remove({
+        _id : req.body.id
+    }, function(err, user) {
+        if (err)
+            res.send(err);
+
+        // get and return all the users after you create another
+        Devices.find(function(err, user) {
+            if (err)
+                res.send(err);
+            res.json(user);
         });
     });
 });
@@ -596,8 +632,7 @@ app.get('/users',function(req,res){
  */
 app.post('/auth/unlink', ensureAuthenticated, function(req, res) {
   var provider = req.body.provider;
-  var providers = ['facebook', 'foursquare', 'google', 'github', 'instagram',
-    'linkedin', 'live', 'twitter', 'twitch', 'yahoo'];
+  var providers = ['google', 'github', 'live'];
 
   if (providers.indexOf(provider) === -1) {
     return res.status(400).send({ message: 'Unknown OAuth Provider' });

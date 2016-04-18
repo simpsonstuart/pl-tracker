@@ -4,7 +4,8 @@ angular.module('MyApp')
       $auth.login($scope.user)
         .then(function() {
           toastr.success('You have successfully signed in!');
-            $state.go('available-devices')
+            
+            $state.go('available-devices');
         })
         .catch(function(error) {
           toastr.error(error.data.message, error.status);

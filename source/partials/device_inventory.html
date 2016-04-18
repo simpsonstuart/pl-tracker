@@ -1,6 +1,6 @@
 <div>
-  <div>
-    <div class="devices_list">
+  <div ng-if="ctrl.Authorized">
+    <div class="devices_list" >
       <h2>Device Inventory</h2>
       <div class="sort">
         <p>Sort by:</p>
@@ -56,18 +56,26 @@
           <table>
               <tr>
                   <th>Name</th>
-                  <th>Role</th>
                   <th>Email</th>
+                  <th>Role</th>
+                  <th></th>
                   <th></th>
               </tr>
-
-              <tr ng-repeat="user in ctrl.users track by $index | orderBy: [ctrl.selectedSortUser, 'name']" class="device-list">
+              <tr ng-repeat="user in ctrl.users | orderBy: [ctrl.selectedSortUser, 'name']" class="device-list">
                   <div class="text">
                       <td>{{user.displayName}}</td>
-                      <td>{{user.role}}</td>
                       <td>{{user.email}}</td>
+                      <td>
+                          <select id="role_select" class="selected" data-ng-model="user.role">
+                              <option value="Admin">Admin</option>
+                              <option value="Standard">Standard</option>
+                              <option value="View_Only">View Only</option>
+                              <option value="Deactivated">Deactivated</option>
+                          </select>
+                      </td>
+                      <td><button ng-click="ctrl.setRole(user._id, user.role); $event.stopPropagation()">Set Role</button></td>
                   </div>
-                  <td class="td_remove"><button ng-click="ctrl.removeUser(device._id); $event.stopPropagation()">X</button></td>
+                  <td class="td_remove"><button ng-click="ctrl.removeUser(user._id); $event.stopPropagation()">X</button></td>
               </tr>
           </table>
       </div>

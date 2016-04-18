@@ -1,9 +1,8 @@
 angular.module('MyApp')
   .controller('ProfileCtrl', function($scope, $auth, toastr, Account, $http) {
       var ctrl            = this;
-      ctrl.selectedSort = 'name';
+      ctrl.selectedSort = 'device_name';
       getDevices();
-      ctrl.selectedSort = 'name';
 
       //gets list of devices that I have checked out
       function getDevices() {

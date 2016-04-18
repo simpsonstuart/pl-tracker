@@ -1,7 +1,7 @@
 angular.module('MyApp')
     .controller('CheckedOutCtrl', function($scope, $http) {
         var ctrl            = this;
-        ctrl.selectedSort = 'name';
+        ctrl.selectedSort = 'device_name';
         getDevices();
 
         //gets list of devices

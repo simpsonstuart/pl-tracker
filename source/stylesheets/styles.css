@@ -529,6 +529,14 @@ h2 {
   margin-right: 2%;
   margin-left: auto;
 }
+.menu_padding_non_admin {
+  width: Auto;
+  height: 30px;
+  float: right;
+  padding: 15px;
+  margin-right: 2%;
+  margin-left: auto;
+}
 .main_link {
   color: #fff;
   text-decoration: none;
