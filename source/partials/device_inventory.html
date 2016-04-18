@@ -49,8 +49,8 @@
           <div class="sort">
               <p>Sort by:</p>
               <select id="sort_select_user" class="selected" data-ng-model="ctrl.selectedSortUser">
-                  <option value="name">Name A-Z</option>
-                  <option value="-name">Name Z-A</option>
+                  <option value="displayName">Name A-Z</option>
+                  <option value="-displayName">Name Z-A</option>
               </select>
           </div>
           <table>
@@ -69,7 +69,6 @@
                           <select id="role_select" class="selected" data-ng-model="user.role">
                               <option value="Admin">Admin</option>
                               <option value="Standard">Standard</option>
-                              <option value="View_Only">View Only</option>
                               <option value="Deactivated">Deactivated</option>
                           </select>
                       </td>

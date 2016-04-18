@@ -8,6 +8,7 @@ angular.module('MyApp')
       getDevices();
       getUsers();
       ctrl.selectedSort = 'device_name';
+      ctrl.selectedSortUser = 'displayName';
       
       function getAuth() {
           Account.getProfile()
