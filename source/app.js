@@ -1,7 +1,6 @@
 angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.router', 'satellizer'])
   .config(function($stateProvider, $urlRouterProvider, $authProvider) {
     $stateProvider
-
       .state('device-inventory', {
         url: '/device-inventory',
         controller: 'InventoryCtrl',

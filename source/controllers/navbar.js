@@ -1,6 +1,7 @@
 angular.module('MyApp')
   .controller('NavbarCtrl', function($scope, $auth, Account) {
       var ctrl = this;
+      ctrl.Admin = false;
     $scope.isAuthenticated = function() {
       return $auth.isAuthenticated();
     };
@@ -19,5 +20,4 @@ angular.module('MyApp')
               .catch(function (response) {
 
               })}
-
   });

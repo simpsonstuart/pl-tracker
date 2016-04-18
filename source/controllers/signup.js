@@ -4,7 +4,7 @@ angular.module('MyApp')
       $auth.signup($scope.user)
         .then(function(response) {
             toastr.info('You have successfully created a new account but it needs to be activated by an admin!');
-            $state.go('login');
+            $state.go('login', {}, {reload: true});
         })
         .catch(function(response) {
           toastr.error(response.data.message);

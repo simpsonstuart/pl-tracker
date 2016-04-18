@@ -7,7 +7,7 @@ angular.module('MyApp')
                 .then(function (response) {
                     if (response.data.role !== "Deactivated") {
                         toastr.success('You have successfully signed in!');
-                        $state.go('available-devices');
+                        $state.go('available-devices', {}, {reload: true});
                     } else {
                         $state.go('deactivated');
                     }
@@ -27,7 +27,7 @@ angular.module('MyApp')
                 .then(function (response) {
                     if (response.data.role !== "Deactivated") {
                         toastr.success('You have successfully signed in with ' + provider + '!');
-                        $location.path('/available-devices');
+                        $state.go('available-devices', {}, {reload: true});
                     } else {
                         $state.go('deactivated');
                     }
