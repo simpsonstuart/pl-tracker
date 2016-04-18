@@ -1,10 +1,12 @@
 angular.module('MyApp')
   .controller('NavbarCtrl', function($scope, $auth, Account) {
       var ctrl = this;
-      getAuth();
     $scope.isAuthenticated = function() {
       return $auth.isAuthenticated();
     };
+      if ($scope.isAuthenticated()){
+          getAuth();
+      }
       function getAuth(){
           Account.getProfile()
               .then(function (response) {
