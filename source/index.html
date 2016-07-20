@@ -3,8 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>P&L Device List</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+    <meta http-equiv="Access-Control-Allow-Origin" content="*"/>
+
+  <title>Vynyl Device List</title>
   <link href="favicon.png" rel="shortcut icon">
     <link href="//cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" rel="stylesheet">
   <link href="//fonts.googleapis.com/css?family=Roboto|Montserrat:400,700|Open+Sans:400,300,600" rel="stylesheet">
@@ -18,7 +20,7 @@
 <body>
 <div ng-controller="NavbarCtrl as ctrl" class="navbar navbar-default navbar-static-top">
   <nav class ="menu">
-    <a href="#/"><img class="main_logo" src="/img/pl_logo.svg" alt="P&L Logo" height="40" width="162"></a>
+    <a href="#/"><img class="main_logo" src="/img/vynyl.svg" alt="Vynyl Logo" height="40" width="162"></a>
     <div class="menu_padding" ng-if="isAuthenticated() && ctrl.Admin == true ">
       <a class="main_link" href="#/device-inventory">Administration</a>
       <a class="main_link" href="#/available-devices">Available Devices</a>

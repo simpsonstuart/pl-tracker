@@ -31,18 +31,6 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
       authToken: 'Bearer',
       storageType: 'localStorage',
       providers: {
-        facebook: {
-          name: 'facebook',
-          url: '/auth/facebook',
-          authorizationEndpoint: 'https://www.facebook.com/v2.5/dialog/oauth',
-          redirectUri: window.location.origin + '/',
-          requiredUrlParams: ['display', 'scope'],
-          scope: ['email'],
-          scopeDelimiter: ',',
-          display: 'popup',
-          oauthType: '2.0',
-          popupOptions: { width: 580, height: 400 }
-        },
         google: {
           name: 'google',
           url: '/auth/google',
@@ -72,16 +60,6 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
           oauthType: '2.0',
           popupOptions: { width: 1020, height: 618 }
         },
-        instagram: {
-          name: 'instagram',
-          url: '/auth/instagram',
-          authorizationEndpoint: 'https://api.instagram.com/oauth/authorize',
-          redirectUri: window.location.origin,
-          requiredUrlParams: ['scope'],
-          scope: ['basic'],
-          scopeDelimiter: '+',
-          oauthType: '2.0'
-        },
         linkedin: {
           name: 'linkedin',
           url: '/auth/linkedin',
@@ -93,48 +71,6 @@ if (typeof module !== 'undefined' && typeof exports !== 'undefined' && module.ex
           state: 'STATE',
           oauthType: '2.0',
           popupOptions: { width: 527, height: 582 }
-        },
-        twitter: {
-          name: 'twitter',
-          url: '/auth/twitter',
-          authorizationEndpoint: 'https://api.twitter.com/oauth/authenticate',
-          redirectUri: window.location.origin,
-          oauthType: '1.0',
-          popupOptions: { width: 495, height: 645 }
-        },
-        twitch: {
-          name: 'twitch',
-          url: '/auth/twitch',
-          authorizationEndpoint: 'https://api.twitch.tv/kraken/oauth2/authorize',
-          redirectUri: window.location.origin,
-          requiredUrlParams: ['scope'],
-          scope: ['user_read'],
-          scopeDelimiter: ' ',
-          display: 'popup',
-          oauthType: '2.0',
-          popupOptions: { width: 500, height: 560 }
-        },
-        live: {
-          name: 'live',
-          url: '/auth/live',
-          authorizationEndpoint: 'https://login.live.com/oauth20_authorize.srf',
-          redirectUri: window.location.origin,
-          requiredUrlParams: ['display', 'scope'],
-          scope: ['wl.emails'],
-          scopeDelimiter: ' ',
-          display: 'popup',
-          oauthType: '2.0',
-          popupOptions: { width: 500, height: 560 }
-        },
-        yahoo: {
-          name: 'yahoo',
-          url: '/auth/yahoo',
-          authorizationEndpoint: 'https://api.login.yahoo.com/oauth2/request_auth',
-          redirectUri: window.location.origin,
-          scope: [],
-          scopeDelimiter: ',',
-          oauthType: '2.0',
-          popupOptions: { width: 559, height: 519 }
         },
         bitbucket: {
           name: 'bitbucket',
