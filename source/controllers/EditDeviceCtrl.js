@@ -4,7 +4,7 @@ angular.module('MyApp')
         ctrl.deviceData = $stateParams.device;
         //saves updated data
         ctrl.saveUpdatedData = function () {
-            $http.post('http://localhost:3000/updatedevices', {
+            $http.post('/updatedevices', {
                 id: ctrl.deviceData._id,
                 device_name: ctrl.deviceData.device_name,
                 device_type: ctrl.deviceData.device_type,

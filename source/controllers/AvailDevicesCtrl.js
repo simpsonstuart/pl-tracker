@@ -7,7 +7,7 @@ angular.module('MyApp')
 
         //gets list of devices
         function getDevices() {
-            $http.get('http://localhost:3000/devices').success(function (data) {
+            $http.get('/devices').success(function (data) {
                 ctrl.devices = _.filter(data, ['checked_out_user', "N/A"]);
             });
         }
@@ -16,7 +16,7 @@ angular.module('MyApp')
             Account.getProfile()
                 .then(function(response) {
                     ctrl.loggedInUser = response.data.displayName;
-                    $http.post('http://localhost:3000/checkout', {id: device._id, checked_out_user: ctrl.loggedInUser}).success(function(data, status) {
+                    $http.post('/checkout', {id: device._id, checked_out_user: ctrl.loggedInUser}).success(function(data, status) {
                         getDevices();
                         toastr.info("Checked Out!");
                     });

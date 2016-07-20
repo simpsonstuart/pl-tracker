@@ -24,7 +24,6 @@ var userSchema = new mongoose.Schema({
   bitbucket: String,
   google: String,
   github: String,
-  live: String
 });
 
 var devicesSchema = new mongoose.Schema({
@@ -108,6 +107,20 @@ function ensureAuthenticated(req, res, next) {
   }
   req.user = payload.sub;
   next();
+}
+
+function ensureAdmin (req, res) {
+    User.findOne({ email: req.body.email }, '+password', function(err, user) {
+        if (!user) {
+            return res.status(401).send({ message: 'Invalid email and/or password' });
+        }
+        user.comparePassword(req.body.password, function(err, isMatch) {
+            if (!isMatch) {
+                return res.status(401).send({ message: 'Invalid email and/or password' });
+            }
+            res.send({ token: createJWT(user) });
+        });
+    });
 }
 
 /*
@@ -564,7 +577,7 @@ app.get('/users',function(req,res){
  */
 app.post('/auth/unlink', ensureAuthenticated, function(req, res) {
   var provider = req.body.provider;
-  var providers = ['google', 'github', 'live'];
+  var providers = ['google', 'github'];
 
   if (providers.indexOf(provider) === -1) {
     return res.status(400).send({ message: 'Unknown OAuth Provider' });

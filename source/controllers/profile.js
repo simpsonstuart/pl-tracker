@@ -8,7 +8,7 @@ angular.module('MyApp')
       function getDevices() {
           Account.getProfile()
               .then(function(response) {
-                  $http.get('http://localhost:3000/devices').success(function (data) {
+                  $http.get('/devices').success(function (data) {
                       ctrl.devices = _.filter(data, ['checked_out_user', response.data.displayName]);
                   });
               })
@@ -18,7 +18,7 @@ angular.module('MyApp')
       }
 
       ctrl.checkInDevice = function (deviceId) {
-          $http.post('http://localhost:3000/checkindevice', {id: deviceId}).success(function(data, status) {
+          $http.post('/checkindevice', {id: deviceId}).success(function(data, status) {
               getDevices();
               toastr.success('Device Checked In');
           });
