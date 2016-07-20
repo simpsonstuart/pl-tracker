@@ -3,6 +3,7 @@ angular.module('MyApp')
     if (!$auth.isAuthenticated()) { return; }
     $auth.logout()
       .then(function() {
+          localStorage.removeItem('843443fdds33');
         toastr.info('You have been logged out');
           $state.go('login');
       });

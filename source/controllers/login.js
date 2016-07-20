@@ -8,6 +8,11 @@ angular.module('MyApp')
                     if (response.data.role !== "Deactivated") {
                         toastr.success('You have successfully signed in!');
                         $state.go('available-devices', {}, {reload: true});
+                        if (response.data.role === 'Admin'){
+                            localStorage.setItem('843443fdds33', 'True');
+                        } else {
+                            localStorage.setItem('843443fdds33', 'False');
+                        }
                     } else {
                         $state.go('deactivated');
                     }

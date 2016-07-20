@@ -83,24 +83,6 @@ if (app.get('env') === 'production') {
 }
 app.use(express.static(path.join(__dirname, '../source')));
 
-/*Create default users if not created*/
-User.findOne({ email: 'nick@vynyl.com' }, function(err, existingUser) {
-  if (existingUser) {
-    console.log('Default Users already in Database Skipping!');
-  }
-  var user = new User({
-    displayName: 'Nick Crabbs',
-    email: 'nick@vynyl.com',
-    password: 'GridL0ckd',
-    role: 'Admin'
-  });
-  user.save(function(err, result) {
-    if (err) {
-      console.log('Error adding default user to database!');
-    }
-      console.log('Created Default user successfully');
-  });
-});
 
 /*
  |--------------------------------------------------------------------------
@@ -606,4 +588,23 @@ app.post('/auth/unlink', ensureAuthenticated, function(req, res) {
  */
 app.listen(app.get('port'), function() {
   console.log('Express server listening on port ' + app.get('port'));
+});
+
+/*Create default users if not created*/
+User.findOne({ email: 'nick@vynyl.com' }, function(err, existingUser) {
+    if (existingUser) {
+        console.log('Default Users already in Database Skipping!');
+    }
+    var user = new User({
+        displayName: 'Nick Crabbs',
+        email: 'nick@vynyl.com',
+        password: 'GridL0ckd',
+        role: 'Admin'
+    });
+    user.save(function(err, result) {
+        if (err) {
+            console.log('Error adding default user to database!');
+        }
+        console.log('Created Default user successfully');
+    });
 });
