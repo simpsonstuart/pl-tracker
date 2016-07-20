@@ -30,7 +30,6 @@ angular.module('MyApp')
         .then(function() {
             Account.getProfile()
                 .then(function (response) {
-                    console.log(response);
                     if (response.data.role && response.data.role !== "Deactivated") {
                         toastr.success('You have successfully signed in with ' + provider + '!');
                         $state.go('available-devices', {}, {reload: true});

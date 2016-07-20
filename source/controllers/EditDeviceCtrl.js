@@ -2,6 +2,7 @@ angular.module('MyApp')
     .controller('EditDeviceCtrl', function($scope, $http, $state, $stateParams) {
       var ctrl = this;
         ctrl.deviceData = $stateParams.device;
+        console.log(ctrl.deviceData);
         //saves updated data
         ctrl.saveUpdatedData = function () {
             $http.post('/updatedevices', {
@@ -21,5 +22,10 @@ angular.module('MyApp')
 
         ctrl.cancel = function () {
             $state.go('device-inventory');
+        };
+        ctrl.ForceCheckIn = function () {
+            $http.post('/checkindevice', {id: ctrl.deviceData._id}).success(function(data, status) {
+                $state.go('device-inventory');
+            });
         };
     });
