@@ -69,7 +69,10 @@ angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.
             url: '/deactivated',
             templateUrl: 'partials/deactivated.html',
             controller: 'DeactivatedCtrl',
-            controllerAs: 'ctrl'
+            controllerAs: 'ctrl',
+            resolve: {
+                loginRequired: loginRequired
+            }
         })
       .state('logout', {
         url: '/logout',

@@ -30,13 +30,14 @@ angular.module('MyApp')
         .then(function() {
             Account.getProfile()
                 .then(function (response) {
-                    if (response.data.role !== "Deactivated") {
+                    console.log(response);
+                    if (response.data.role && response.data.role !== "Deactivated") {
                         toastr.success('You have successfully signed in with ' + provider + '!');
                         $state.go('available-devices', {}, {reload: true});
                         if (response.data.role === 'Admin'){
-                            localStorage.setItem('843443fdds33', 'True');
+                            localStorage.setItem('843443fdds33', 'true');
                         } else {
-                            localStorage.setItem('843443fdds33', 'False');
+                            localStorage.setItem('843443fdds33', 'false');
                         }
                     } else {
                         $state.go('deactivated');

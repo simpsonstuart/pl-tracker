@@ -599,28 +599,7 @@ app.post('/auth/unlink', ensureAuthenticated, function(req, res) {
  | Start the Server and add default user if not found
  |--------------------------------------------------------------------------
  */
-User.findOne({ email: 'nick@vynyl.com' }, function(err, existingUser) {
-    if (existingUser) {
-        console.log('Default User already in Database Skipping!');
-        app.listen(app.get('port'), function() {
-            console.log('Express server listening on port ' + app.get('port'));
-        });
-    } else {
-        var user = new User({
-            displayName: 'Nick Crabbs',
-            email: 'nick@vynyl.com',
-            password: 'GridL0ckd',
-            role: 'Admin'
-        });
-        user.save(function(err, result) {
-            if (err) {
-                console.log('Error adding default user to database!');
-            }
-            app.listen(app.get('port'), function() {
-                console.log('Express server listening on port ' + app.get('port'));
-            });
-        });
-    }
+app.listen(app.get('port'), function() {
+    console.log('Express server listening on port ' + app.get('port'));
 });
-
 
