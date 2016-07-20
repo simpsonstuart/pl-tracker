@@ -100,10 +100,6 @@ angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.
       clientId: '77cw786yignpzj'
     });
 
-    $authProvider.live({
-      clientId: '0000000044186520'
-    });
-
     $authProvider.bitbucket({
       clientId: 'ap42yBVbAJRXxym6M4'
     });
