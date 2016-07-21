@@ -99,10 +99,6 @@ angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.
       clientId: '9cd73de67627c4c761e1'
     });
 
-    $authProvider.linkedin({
-      clientId: '77cw786yignpzj'
-    });
-
     $authProvider.bitbucket({
       clientId: 'ap42yBVbAJRXxym6M4'
     });

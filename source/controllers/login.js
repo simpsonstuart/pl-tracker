@@ -5,14 +5,14 @@ angular.module('MyApp')
         .then(function() {
             Account.getProfile()
                 .then(function (response) {
-                    if (response.data.role !== "Deactivated") {
+                    if (response.data.role && response.data.role !== "Deactivated") {
                         toastr.success('You have successfully signed in!');
-                        $state.go('available-devices', {}, {reload: true});
                         if (response.data.role === 'Admin'){
                             localStorage.setItem('843443fdds33', 'True');
                         } else {
                             localStorage.setItem('843443fdds33', 'False');
                         }
+                        $state.go('available-devices', {}, {reload: true});
                     } else {
                         $state.go('deactivated');
                     }
@@ -32,12 +32,12 @@ angular.module('MyApp')
                 .then(function (response) {
                     if (response.data.role && response.data.role !== "Deactivated") {
                         toastr.success('You have successfully signed in with ' + provider + '!');
-                        $state.go('available-devices', {}, {reload: true});
                         if (response.data.role === 'Admin'){
                             localStorage.setItem('843443fdds33', 'true');
                         } else {
                             localStorage.setItem('843443fdds33', 'false');
                         }
+                        $state.go('available-devices', {}, {reload: true});
                     } else {
                         $state.go('deactivated');
                     }
