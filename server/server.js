@@ -270,7 +270,10 @@ app.post('/auth/google', function(req, res) {
                     user.picture = profile.picture.replace('sz=50', 'sz=200');
                     user.displayName = profile.name;
                     user.role = 'Deactivated';
+                    user.email = '';
                     user.save(function(err) {
+                        console.log(err);
+                        console.log('user', user);
                         var token = createJWT(user);
                         res.send({ token: token });
                     });
@@ -336,6 +339,7 @@ app.post('/auth/github', function(req, res) {
                     user.picture = profile.avatar_url;
                     user.displayName = profile.name;
                     user.role = 'Deactivated';
+                    user.email = '';
                     user.save(function() {
                         var token = createJWT(user);
                         res.send({ token: token });
@@ -417,6 +421,7 @@ app.post('/auth/bitbucket', function(req, res) {
                         user.email = email;
                         user.picture = profile.links.avatar.href;
                         user.role = 'Deactivated';
+                        user.email = '';
                         user.displayName = profile.display_name;
                         user.save(function() {
                             var token = createJWT(user);
