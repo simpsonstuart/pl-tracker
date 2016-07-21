@@ -573,6 +573,12 @@ body {
   text-align: center;
   padding: 20px;
 }
+select {
+  width: 190px;
+  padding: 7px;
+  margin-bottom: 5px;
+  transition: border linear .2s, box-shadow linear .2s;
+}
 
 @media
 only screen and (max-width: 760px),
