@@ -272,10 +272,9 @@ app.post('/auth/google', function(req, res) {
                     user.role = 'Deactivated';
                     user.email = profile.email;
                     user.save(function(err) {
-                        console.log(err);
-                        console.log('user', user);
-                        var token = createJWT(user);
-                        res.send({ token: token });
+                    console.log('Mongo Error Adding User',err);
+                    var token = createJWT(user);
+                    res.send({ token: token });
                     });
                 });
             }
@@ -339,7 +338,7 @@ app.post('/auth/github', function(req, res) {
                     user.picture = profile.avatar_url;
                     user.displayName = profile.name;
                     user.role = 'Deactivated';
-                    user.email = '';
+                    user.email = profile.email;
                     user.save(function() {
                         var token = createJWT(user);
                         res.send({ token: token });
@@ -418,10 +417,9 @@ app.post('/auth/bitbucket', function(req, res) {
                         }
                         var user = new User();
                         user.bitbucket = profile.uuid;
-                        user.email = email;
+                        user.email = profile.email;
                         user.picture = profile.links.avatar.href;
                         user.role = 'Deactivated';
-                        user.email = '';
                         user.displayName = profile.display_name;
                         user.save(function() {
                             var token = createJWT(user);
