@@ -270,7 +270,7 @@ app.post('/auth/google', function(req, res) {
                     user.picture = profile.picture.replace('sz=50', 'sz=200');
                     user.displayName = profile.name;
                     user.role = 'Deactivated';
-                    user.email = '';
+                    user.email = profile.email;
                     user.save(function(err) {
                         console.log(err);
                         console.log('user', user);
