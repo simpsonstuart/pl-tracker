@@ -8,9 +8,9 @@ angular.module('MyApp')
                     if (response.data.role && response.data.role !== "Deactivated") {
                         toastr.success('You have successfully signed in!');
                         if (response.data.role === 'Admin'){
-                            localStorage.setItem('843443fdds33', 'True');
+                            localStorage.setItem('843443fdds33', true);
                         } else {
-                            localStorage.setItem('843443fdds33', 'False');
+                            localStorage.setItem('843443fdds33', false);
                         }
                         $state.go('available-devices', {}, {reload: true});
                     } else {
@@ -33,9 +33,9 @@ angular.module('MyApp')
                     if (response.data.role && response.data.role !== "Deactivated") {
                         toastr.success('You have successfully signed in with ' + provider + '!');
                         if (response.data.role === 'Admin'){
-                            localStorage.setItem('843443fdds33', 'true');
+                            localStorage.setItem('843443fdds33', true);
                         } else {
-                            localStorage.setItem('843443fdds33', 'false');
+                            localStorage.setItem('843443fdds33', false);
                         }
                         $state.go('available-devices', {}, {reload: true});
                     } else {

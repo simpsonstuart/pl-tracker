@@ -108,22 +108,18 @@ function ensureAuthenticated(req, res, next) {
   }
   req.user = payload.sub;
   next();
-}
 
-function ensureAdmin (req, res) {
-    User.findOne({ email: req.body.email }, '+password', function(err, user) {
-        if (!user) {
-            return res.status(401).send({ message: 'Invalid email and/or password' });
+}
+function ensureAdmin (req, res, next) {
+    if (!req.header('Authorization')) {
+        return res.status(401).send({message: 'Please make sure your request has an Authorization header'});
+    }
+    User.findById(req.user, function (err, user) {
+        if (user.role === 'Admin') {
+            next();
         }
-        user.comparePassword(req.body.password, function(err, isMatch) {
-            if (!isMatch) {
-                return res.status(401).send({ message: 'Invalid email and/or password' });
-            }
-            res.send({ token: createJWT(user) });
-        });
     });
 }
-
 /*
  |--------------------------------------------------------------------------
  | Generate JSON Web Token
@@ -133,7 +129,7 @@ function createJWT(user) {
   var payload = {
     sub: user._id,
     iat: moment().unix(),
-    exp: moment().add(14, 'days').unix()
+    exp: moment().add(2, 'days').unix()
   };
   return jwt.encode(payload, config.TOKEN_SECRET);
 }
@@ -269,10 +265,14 @@ app.post('/auth/google', function(req, res) {
                     user.google = profile.sub;
                     user.picture = profile.picture.replace('sz=50', 'sz=200');
                     user.displayName = profile.name;
-                    user.role = 'Deactivated';
+                    var idx = profile.email.lastIndexOf('@');
+                    if (/@vynyl.com\s*$/.test(profile.email)) {
+                        user.role = 'Standard';
+                    } else {
+                        user.role = 'Deactivated';
+                    }
                     user.email = profile.email;
                     user.save(function(err) {
-                    console.log('Mongo Error Adding User',err);
                     var token = createJWT(user);
                     res.send({ token: token });
                     });
@@ -433,7 +433,7 @@ app.post('/auth/bitbucket', function(req, res) {
 });
 
 //endpoint for add device
-app.post('/savedevices',function(req,res) {
+app.post('/savedevices', ensureAdmin, function(req,res) {
     Devices.create({
         device_name : req.body.device_name,
         device_type : req.body.device_type,
@@ -485,7 +485,7 @@ app.post('/checkindevice', ensureAuthenticated, function(req, res) {
 });
 
 //endpoint for set role
-app.post('/setabstractionrole', ensureAuthenticated, function(req, res) {
+app.post('/setabstractionrole', ensureAuthenticated, ensureAdmin, function(req, res) {
     User.findById(req.body.id, function(err, User) {
         if (!User) {
             return res.status(400).send({ message: 'User not found' });
@@ -498,7 +498,7 @@ app.post('/setabstractionrole', ensureAuthenticated, function(req, res) {
 });
 
 //endpoint for edit device
-app.post('/updatedevices', ensureAuthenticated, function(req, res) {
+app.post('/updatedevices', ensureAuthenticated, ensureAdmin, function(req, res) {
     Devices.findById(req.body.id, function(err, Devices) {
         if (!Devices) {
             return res.status(400).send({ message: 'Device not found' });
@@ -518,7 +518,7 @@ app.post('/updatedevices', ensureAuthenticated, function(req, res) {
 });
 
 //endpoint for delete device
-app.post('/deletedevice',function(req,res) {
+app.post('/deletedevice', ensureAuthenticated, ensureAdmin, function(req,res) {
     Devices.remove({
         _id : req.body.id
     }, function(err, devices) {
@@ -535,7 +535,7 @@ app.post('/deletedevice',function(req,res) {
 });
 
 //endpoint for delete user
-app.post('/deleteuser',function(req,res) {
+app.post('/deleteuser', ensureAuthenticated, ensureAdmin, function(req,res) {
     User.remove({
         _id : req.body.id
     }, function(err, user) {
@@ -552,7 +552,7 @@ app.post('/deleteuser',function(req,res) {
 });
 
 //gets list of devices from database
-app.get('/devices',function(req,res){
+app.get('/devices',  ensureAuthenticated, function(req,res){
         // use mongoose to get all devices in the database
         Devices.find(function(err, devices) {
 
@@ -565,7 +565,7 @@ app.get('/devices',function(req,res){
 });
 
 //gets list of users from database
-app.get('/users',function(req,res){
+app.get('/users', ensureAuthenticated, ensureAdmin, function(req,res){
     // use mongoose to get all users in the database
     User.find(function(err, users) {
 
@@ -609,4 +609,3 @@ app.post('/auth/unlink', ensureAuthenticated, function(req, res) {
 app.listen(app.get('port'), function() {
     console.log('Express server listening on port ' + app.get('port'));
 });
-

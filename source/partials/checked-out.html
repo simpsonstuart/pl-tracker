@@ -1,3 +1,15 @@
+<div ng-controller="NavbarCtrl as ctrl" class="navbar navbar-default">
+    <nav class="menu">
+        <a href="#/"><img class="main_logo" src="/img/vynyl.svg" alt="Vynyl Logo" height="40" width="162"></a>
+        <div class="menu_padding_non_admin">
+            <a ng-if="ctrl.authorized" class="main_link" href="#/device-inventory" ng-cloak>Administration</a>
+            <a class="main_link" href="#/available-devices">Available Devices</a>
+            <a class="main_link" href="#/checked-out">Checked Out</a>
+            <a class="last_link" href="#/profile">Profile</a>
+            <a class="main_link" href="/#/logout">Logout</a>
+        </div>
+    </nav>
+</div>
 <div>
     <div ng-hide="ctrl.hideDeviceList" class="devices_list">
         <h2>Checked Out</h2>
