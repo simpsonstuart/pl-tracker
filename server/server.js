@@ -541,12 +541,38 @@ app.post('/deleteuser', ensureAuthenticated, ensureAdmin, function(req,res) {
     }, function(err, user) {
         if (err)
             res.send(err);
+    });
+});
 
-        // get and return all the users after you create another
-        Devices.find(function(err, user) {
-            if (err)
-                res.send(err);
-            res.json(user);
+//endpoint for add user
+app.post('/adduser', ensureAuthenticated, ensureAdmin, function(req,res) {
+    User.findOne({ email: req.body.email }, function(err, existingUser) {
+        if (existingUser) {
+            return res.status(409).send({ message: 'Email is already taken' });
+        }
+        var user = new User({
+            displayName: req.body.displayName,
+            email: req.body.email,
+            password: req.body.password,
+            role: req.body.role
+        });
+        user.save(function(err, result) {
+            if (err) {
+                res.status(500).send({ message: err.message });
+            }
+            res.send(201);
+        });
+    });
+});
+//endpoint for reset password
+app.post('/resetpassword', ensureAuthenticated, ensureAdmin, function(req,res) {
+    User.findById(req.body.id, function(err, User) {
+        if (!User) {
+            return res.status(400).send({ message: 'User not found' });
+        }
+        User.password = req.body.password;
+        User.save(function(err) {
+            res.status(200).end();
         });
     });
 });
