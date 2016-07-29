@@ -1,0 +1,50 @@
+<div ng-controller="NavbarCtrl as ctrl" class="navbar navbar-default">
+    <nav class="menu">
+        <a href="#/"><img class="main_logo" src="/img/vynyl.svg" alt="Vynyl Logo" height="40" width="162"></a>
+        <div class="menu_padding_non_admin">
+            <a ng-if="ctrl.authorized" class="main_link" href="#/device-inventory" ng-cloak>Administration</a>
+            <a class="main_link" href="#/available-devices">Available Devices</a>
+            <a class="main_link" href="#/checked-out">Checked Out</a>
+            <a class="last_link" href="#/profile">Profile</a>
+            <a class="main_link" href="/#/logout">Logout</a>
+        </div>
+    </nav>
+</div>
+<div>
+    <div ng-if="ctrl.Authorized">
+        <div class="devices_list">
+            <h2>User Management</h2>
+            <div class="sort">
+                <p>Sort by:</p>
+                <select id="sort_select_user" class="selected" data-ng-model="ctrl.selectedSortUser">
+                    <option value="displayName">Name A-Z</option>
+                    <option value="-displayName">Name Z-A</option>
+                </select>
+            </div>
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                <tr ng-repeat="user in ctrl.users | orderBy: [ctrl.selectedSortUser, 'name']" class="device-list">
+                    <div class="text">
+                        <td>{{user.displayName}}</td>
+                        <td>{{user.email}}</td>
+                        <td>
+                            <select id="role_select" class="selected" data-ng-model="user.role">
+                                <option value="Admin">Admin</option>
+                                <option value="Standard">Standard</option>
+                                <option value="Deactivated">Deactivated</option>
+                            </select>
+                        </td>
+                        <td><button ng-click="ctrl.setRole(user._id, user.role); $event.stopPropagation()">Set Role</button></td>
+                    </div>
+                    <td class="td_remove"><button ng-click="ctrl.removeUser(user._id); $event.stopPropagation()">X</button></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

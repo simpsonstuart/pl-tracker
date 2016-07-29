@@ -1,4 +1,4 @@
-angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.router', 'satellizer'])
+angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.router', 'satellizer', 'ngAlertify'])
   .config(function($stateProvider, $urlRouterProvider, $authProvider) {
     $stateProvider
       .state('device-inventory', {
@@ -48,6 +48,33 @@ angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.
             url: '/add-device',
             templateUrl: 'partials/add-device.html',
             controller: 'AddDeviceCtrl',
+            controllerAs: 'ctrl',
+            resolve: {
+                loginRequired: loginRequired
+            }
+        })
+        .state('manage-devices', {
+            url: '/manage-devices',
+            templateUrl: 'partials/manage-devices.html',
+            controller: 'ManageDevicesCtrl',
+            controllerAs: 'ctrl',
+            resolve: {
+                loginRequired: loginRequired
+            }
+        })
+        .state('manage-users', {
+            url: '/manage-users',
+            templateUrl: 'partials/manage-users.html',
+            controller: 'ManageUsersCtrl',
+            controllerAs: 'ctrl',
+            resolve: {
+                loginRequired: loginRequired
+            }
+        })
+        .state('manage-checkouts', {
+            url: '/manage-checkouts',
+            templateUrl: 'partials/manage-checkouts.html',
+            controller: 'ManageCheckoutsCtrl',
             controllerAs: 'ctrl',
             resolve: {
                 loginRequired: loginRequired

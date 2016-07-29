@@ -12,83 +12,43 @@
 </div>
 <div>
   <div ng-if="ctrl.Authorized">
-    <div class="devices_list" >
-      <h2>Device Inventory</h2>
-      <div class="sort">
-        <p>Sort by:</p>
-        <select id="sort_select" class="selected" data-ng-model="ctrl.selectedSort">
-          <option value="device_name">Name A-Z</option>
-          <option value="-device_name">Name Z-A</option>
-          <option value="device_ram">RAM Least First</option>
-          <option value="-device_ram">RAM Most First</option>
-        </select>
+      <div class="title_holder" >
+      <h2>Administration</h2>
       </div>
-      <table>
-        <tr>
-          <th>Device Name</th>
-          <th>Device Type</th>
-          <th>Device S/N</th>
-          <th>Device Manufacturer</th>
-          <th>Device Model</th>
-          <th>Software Version</th>
-          <th>Screen Resolution</th>
-          <th>RAM</th>
-          <th>Checked Out Too</th>
-          <th></th>
-        </tr>
-
-        <tr ng-repeat="device in ctrl.devices | orderBy: [ctrl.selectedSort, 'device_name']" ui-sref="edit-device({device: device})" class="device-list">
-          <div class="text">
-            <td>{{device.device_name}}</td>
-            <td>{{device.device_type}}</td>
-            <td>{{device.device_sn}}</td>
-            <td>{{device.device_manufacturer}}</td>
-            <td>{{device.device_model}}</td>
-            <td>{{device.sw_version}}</td>
-            <td>{{device.screen_resolution}}</td>
-            <td>{{device.device_ram}}</td>
-            <td>{{device.checked_out_user}}</td>
-          </div>
-          <td class="td_remove"><button ng-click="ctrl.removeItem(device._id); $event.stopPropagation()">X</button></td>
-        </tr>
-      </table>
-      <div class="spacer">
-        <button class="button" ui-sref="add-device">Add Device</button>
-      </div>
-    </div>
-      <div class="devices_list">
-          <h2>User Management</h2>
-          <div class="sort">
-              <p>Sort by:</p>
-              <select id="sort_select_user" class="selected" data-ng-model="ctrl.selectedSortUser">
-                  <option value="displayName">Name A-Z</option>
-                  <option value="-displayName">Name Z-A</option>
-              </select>
-          </div>
-          <table>
-              <tr>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Role</th>
-                  <th></th>
-                  <th></th>
-              </tr>
-              <tr ng-repeat="user in ctrl.users | orderBy: [ctrl.selectedSortUser, 'name']" class="device-list">
-                  <div class="text">
-                      <td>{{user.displayName}}</td>
-                      <td>{{user.email}}</td>
-                      <td>
-                          <select id="role_select" class="selected" data-ng-model="user.role">
-                              <option value="Admin">Admin</option>
-                              <option value="Standard">Standard</option>
-                              <option value="Deactivated">Deactivated</option>
-                          </select>
-                      </td>
-                      <td><button ng-click="ctrl.setRole(user._id, user.role); $event.stopPropagation()">Set Role</button></td>
+      <div class="admin-panel panel-default">
+          <div class="panel-heading">Management Options</div>
+          <div class="panel-body">
+              <div ui-sref="manage-devices" class="square">
+                  <div class="content">
+                      <div class="table">
+                          <div class="table-cell">
+                              <div class="ion-ipad sub-icon"></div>
+                              <p class="center-align">Manage Devices</p>
+                          </div>
+                      </div>
                   </div>
-                  <td class="td_remove"><button ng-click="ctrl.removeUser(user._id); $event.stopPropagation()">X</button></td>
-              </tr>
-          </table>
+              </div>
+              <div ui-sref="manage-users" class="square">
+                  <div class="content">
+                      <div class="table">
+                          <div class="table-cell">
+                              <div class="ion-ios-people sub-icon"></div>
+                              <p class="center-align">Manage Users</p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div ui-sref="manage-checkouts" class="square">
+                  <div class="content">
+                      <div class="table">
+                          <div class="table-cell">
+                              <div class="ion-archive sub-icon"></div>
+                              <p class="center-align">Manage Checkouts</p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
       </div>
   </div>
 </div>

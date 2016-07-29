@@ -7,6 +7,10 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Montserrat', sans-serif;
   font-weight: bold;
 }
+h2 {
+    border-bottom: solid 1px #888;
+    color: #4A4949;
+}
 
 a {
   color: #000;
@@ -72,6 +76,15 @@ ul {
   border-color: #cfd9D7;
   border-radius: 2px;
   box-shadow: 0 8px 17px rgba(0, 0, 0, .2);
+}
+.admin-panel {
+    border-color: #cfd9D7;
+    border-radius: 2px;
+    box-shadow: 0 8px 17px rgba(0, 0, 0, .2);
+    width: 90%;
+    margin: auto;
+    margin-top: 40px;
+    background-color: #f6f6f6;
 }
 
 .panel-default > .panel-heading {
@@ -630,4 +643,49 @@ only screen and (max-width: 760px),
   td:nth-of-type(8):before { content: "RAM"; }
   td:nth-of-type(9):before { content: "Checked Out"; }
 }
-
+.square {
+  float: left;
+  position: relative;
+  width: 30%;
+  padding-bottom: 30%;
+  margin: 1.66%;
+  overflow: hidden;
+  border: solid 1px #888;
+}
+.table-cell{
+  display:table-cell;
+  vertical-align:middle;
+}
+.listing-cell {
+  display:table-cell;
+  vertical-align:top;
+}
+.sub-icon {
+  font-size: 3.2em;
+  text-align: center;
+}
+.center_select {
+    width: 90px;
+}
+.content {
+    position:absolute;
+    height:100%; /* = 100% - 2*5% padding */
+    width:100%; /* = 100% - 2*5% padding */
+    padding: 5%;
+    cursor: pointer;
+}
+.table{
+    display:table;
+    width:100%;
+    height:100%;
+}
+.center-align {
+    text-align: center;
+}
+.title_holder {
+    padding-left: 30px;
+    padding-top: 5px;
+    margin-right: auto;
+    margin-left: 0px;
+    width: 90%;
+}
