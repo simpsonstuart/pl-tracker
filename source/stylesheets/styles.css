@@ -710,6 +710,9 @@ only screen and (max-width: 760px),
     margin-left: 0px;
     width: 90%;
 }
+.login_h2 {
+  padding-bottom: 10px;
+}
 .icon-big {
     font-size: 20px;
     cursor: pointer;
