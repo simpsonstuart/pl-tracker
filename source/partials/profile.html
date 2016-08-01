@@ -5,8 +5,8 @@
             <a ng-if="ctrl.authorized" class="main_link" href="#/device-inventory" ng-cloak>Administration</a>
             <a class="main_link" href="#/available-devices">Available Devices</a>
             <a class="main_link" href="#/checked-out">Checked Out</a>
-            <a class="last_link" href="#/profile">Profile</a>
-            <a class="main_link" href="/#/logout">Logout</a>
+            <a class="main_link" href="#/profile">Profile</a>
+            <a class="last_link" href="/#/logout">Logout</a>
         </div>
     </nav>
 </div>
@@ -18,7 +18,7 @@
         <div class="devices_list">
             <div class="sort">
                 <p>Sort by:</p>
-                <select id="sort_select" class="selected" data-ng-model="ctrl.selectedSort">
+                <select class="input_style_select" id="sort_select" class="selected" data-ng-model="ctrl.selectedSort">
                     <option value="device_name">Name A-Z</option>
                     <option value="-device_name">Name Z-A</option>
                     <option value="device_ram">RAM Least First</option>
@@ -26,7 +26,7 @@
                 </select>
             </div>
             <table>
-                <tr>
+                <tr class="special_tr">
                     <th>Device Name</th>
                     <th>Device Type</th>
                     <th>Device S/N</th>

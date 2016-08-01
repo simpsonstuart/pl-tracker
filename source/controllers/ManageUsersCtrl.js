@@ -1,9 +1,10 @@
 angular.module('MyApp')
-  .controller('ManageUsersCtrl', function($scope, $auth, toastr, $http, Account, $state, alertify) {
+  .controller('ManageUsersCtrl', function($scope, $auth, toastr, $http, Account, $state, alertify, $mdDialog) {
       var ctrl            = this;
       ctrl.hideDeviceList = false;
       ctrl.showAddDevice = false;
       ctrl.showEditDevice = false;
+      ctrl.role = "Maintainer";
       getAuth();
       getUsers();
       ctrl.selectedSortUser = 'displayName';
@@ -45,13 +46,27 @@ angular.module('MyApp')
       //set role of user
       ctrl.setRole = function(id, role) {
           // confirm dialog
-          alertify.confirm("Are you sure you want to set the user roler?", function (e) {
+          alertify.confirm("Are you sure you want to set the user role?", function (e) {
               if (e) {
                   $http.post('/setabstractionrole',{id: id, role: role}).success(function(data, status) {
                   });
                   getUsers();
               } else {
               }
+          });
+      };
+      ctrl.addUser = function() {
+          $mdDialog.show({
+              contentElement: '#editModal',
+              parent: angular.element(document.body)
+          });
+      };
+      ctrl.cancel = function() {
+          $mdDialog.hide();
+      };
+      ctrl.postaddUser = function() {
+          $http.post('/adduser', { displayName: ctrl.name, email: ctrl.email, role: ctrl.role}).then(function(data, status) {
+              $mdDialog.hide();
           });
       };
   });

@@ -1,4 +1,4 @@
-angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.router', 'satellizer', 'ngAlertify'])
+angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.router', 'satellizer', 'ngMaterial', 'ngAlertify'])
   .config(function($stateProvider, $urlRouterProvider, $authProvider) {
     $stateProvider
       .state('device-inventory', {
@@ -48,6 +48,15 @@ angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.
             url: '/add-device',
             templateUrl: 'partials/add-device.html',
             controller: 'AddDeviceCtrl',
+            controllerAs: 'ctrl',
+            resolve: {
+                loginRequired: loginRequired
+            }
+        })
+        .state('add-user', {
+            url: '/add-user',
+            templateUrl: 'partials/add-user.html',
+            controller: 'AddUserCtrl',
             controllerAs: 'ctrl',
             resolve: {
                 loginRequired: loginRequired

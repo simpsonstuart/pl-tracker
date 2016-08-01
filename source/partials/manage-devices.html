@@ -5,18 +5,18 @@
             <a ng-if="ctrl.authorized" class="main_link" href="#/device-inventory" ng-cloak>Administration</a>
             <a class="main_link" href="#/available-devices">Available Devices</a>
             <a class="main_link" href="#/checked-out">Checked Out</a>
-            <a class="last_link" href="#/profile">Profile</a>
-            <a class="main_link" href="/#/logout">Logout</a>
+            <a class="main_link" href="#/profile">Profile</a>
+            <a class="last_link" href="/#/logout">Logout</a>
         </div>
     </nav>
 </div>
 <div>
     <div ng-if="ctrl.Authorized">
         <div class="devices_list" >
-            <h2>Device Inventory</h2>
+            <h2><i class="ion-ipad"></i> Device Management</h2>
             <div class="sort">
                 <p>Sort by:</p>
-                <select id="sort_select" class="selected" data-ng-model="ctrl.selectedSort">
+                <select class="input_style_select" id="sort_select" class="selected" data-ng-model="ctrl.selectedSort">
                     <option value="device_name">Name A-Z</option>
                     <option value="-device_name">Name Z-A</option>
                     <option value="device_ram">RAM Least First</option>
@@ -24,20 +24,19 @@
                 </select>
             </div>
             <table>
-                <tr>
-                    <th>Device Name</th>
-                    <th>Device Type</th>
-                    <th>Device S/N</th>
-                    <th>Device Manufacturer</th>
-                    <th>Device Model</th>
-                    <th>Software Version</th>
-                    <th>Screen Resolution</th>
-                    <th>RAM</th>
-                    <th>Checked Out Too</th>
+                <tr class="special_tr">
+                    <th><i class="ion-ipad"></i> Name</th>
+                    <th><i class="ion-funnel"></i> Type</th>
+                    <th><i class="ion-ios-barcode"></i> S/N</th>
+                    <th><i class="ion-soup-can"></i> Manufacturer</th>
+                    <th><i class="ion-information-circled"></i> Model</th>
+                    <th><i class="ion-code-working"></i> Software Version</th>
+                    <th><i class="ion-monitor"></i> Screen Resolution</th>
+                    <th><i class="ion-speedometer"></i> RAM</th>
                     <th></th>
                 </tr>
 
-                <tr ng-repeat="device in ctrl.devices | orderBy: [ctrl.selectedSort, 'device_name']" ui-sref="edit-device({device: device})" class="device-list">
+                <tr ng-repeat="device in ctrl.devices | orderBy: [ctrl.selectedSort, 'device_name']" ng-click="ctrl.editDevice(device)" class="device-list">
                     <div class="text">
                         <td>{{device.device_name}}</td>
                         <td>{{device.device_type}}</td>
@@ -47,13 +46,88 @@
                         <td>{{device.sw_version}}</td>
                         <td>{{device.screen_resolution}}</td>
                         <td>{{device.device_ram}}</td>
-                        <td>{{device.checked_out_user}}</td>
                     </div>
                     <td class="td_remove"><button ng-click="ctrl.removeItem(device._id); $event.stopPropagation()">X</button></td>
                 </tr>
             </table>
             <div class="spacer">
-                <button class="button" ui-sref="add-device">Add Device</button>
+                <button class="button" ng-click="ctrl.addDevice()">Add Device</button>
+            </div>
+        </div>
+        <div style="visibility: hidden">
+            <div class="md-dialog-container" id="editModal">
+                <md-dialog layout-padding="" class="modal_body">
+                    <div class="modal_content">
+                        <h1>Add Device</h1>
+                        <form name="device_form">
+                            <div class="form-group">
+                                <input class="input_style" type="text" ng-model="ctrl.device_name" placeholder="Device Name">
+                                </div>
+                                <div class="form-group">
+                                <select class="input_style_select" ng-model="ctrl.device_type">
+                                    <option value="Phone">Phone</option>
+                                    <option value="Tablet">Tablet</option>
+                                    <option value="Watch">Watch</option>
+                                    <option value="Computer">Computer</option>
+                                </select>
+                                </div>
+                                <input class="input_style" type="text" ng-model="ctrl.device_sn" placeholder="Device S/N">
+                                <div class="form-group">
+                                <input class="input_style" type="text" ng-model="ctrl.device_manufacturer" placeholder="Manufacturer">
+                                </div>
+                                <div class="form-group">
+                                <input class="input_style" type="text" ng-model="ctrl.device_model" placeholder="Model">
+                                </div>
+                                <input class="input_style" type="text" ng-model="ctrl.sw_version" placeholder="Software Version">
+                                <div class="form-group">
+                                <input class="input_style" type="text" ng-model="ctrl.screen_resolution" placeholder="Screen Resolution">
+                                </div>
+                                <div class="form-group">
+                                <input class="input_style" type="text" ng-model="ctrl.device_ram" placeholder="Device RAM">
+                                </div>
+                        </form>
+                        <button class="btn btn-primary btn-lg button_regular" ng-click="ctrl.cancel()">Cancel</button>
+                        <button class="btn btn-primary btn-lg button_regular" ng-disabled="device_form.$invalid" ng-click="ctrl.postAddDevice()">Add</button>
+                    </div>
+                </md-dialog>
+            </div>
+        </div>
+        <div style="visibility: hidden">
+            <div class="md-dialog-container" id="editDevice">
+                <md-dialog layout-padding="" class="modal_body">
+                    <div class="modal_content">
+                        <h1>Edit Device</h1>
+                        <form name="device_form">
+                            <div class="form-group">
+                                <input class="input_style" type="text" ng-model="ctrl.deviceData.device_name" placeholder="Device Name">
+                            </div>
+                            <div class="form-group">
+                                <select class="input_style_select" ng-model="ctrl.deviceData.device_type">
+                                    <option value="Phone">Phone</option>
+                                    <option value="Tablet">Tablet</option>
+                                    <option value="Watch">Watch</option>
+                                    <option value="Computer">Computer</option>
+                                </select>
+                            </div>
+                            <input class="input_style" type="text" ng-model="ctrl.deviceData.device_sn" placeholder="Device S/N">
+                            <div class="form-group">
+                                <input class="input_style" type="text" ng-model="ctrl.deviceData.device_manufacturer" placeholder="Manufacturer">
+                            </div>
+                            <div class="form-group">
+                                <input class="input_style" type="text" ng-model="ctrl.deviceData.device_model" placeholder="Model">
+                            </div>
+                            <input class="input_style" type="text" ng-model="ctrl.deviceData.sw_version" placeholder="Software Version">
+                            <div class="form-group">
+                                <input class="input_style" type="text" ng-model="ctrl.deviceData.screen_resolution" placeholder="Screen Resolution">
+                            </div>
+                            <div class="form-group">
+                                <input class="input_style" type="text" ng-model="ctrl.deviceData.device_ram" placeholder="Device RAM">
+                            </div>
+                        </form>
+                        <button class="btn btn-primary btn-lg button_regular" ng-click="ctrl.cancel()">Cancel</button>
+                        <button class="btn btn-primary btn-lg button_regular" ng-disabled="device_form.$invalid" ng-click="ctrl.postEditDevice()">Update</button>
+                    </div>
+                </md-dialog>
             </div>
         </div>
     </div>

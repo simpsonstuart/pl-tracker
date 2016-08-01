@@ -5,18 +5,18 @@
             <a ng-if="ctrl.authorized" class="main_link" href="#/device-inventory" ng-cloak>Administration</a>
             <a class="main_link" href="#/available-devices">Available Devices</a>
             <a class="main_link" href="#/checked-out">Checked Out</a>
-            <a class="last_link" href="#/profile">Profile</a>
-            <a class="main_link" href="/#/logout">Logout</a>
+            <a class="main_link" href="#/profile">Profile</a>
+            <a class="last_link" href="/#/logout">Logout</a>
         </div>
     </nav>
 </div>
 <div>
     <div ng-if="ctrl.Authorized">
         <div class="devices_list" >
-            <h2>Checkout Management</h2>
+            <h2><i class="ion-archive"></i> Checkout Management</h2>
             <div class="sort">
                 <p>Sort by:</p>
-                <select id="sort_select" class="selected" data-ng-model="ctrl.selectedSort">
+                <select class="input_style_select" id="sort_select" class="selected" data-ng-model="ctrl.selectedSort">
                     <option value="device_name">Name A-Z</option>
                     <option value="-device_name">Name Z-A</option>
                     <option value="checked_out_user">Checked Out A-Z</option>
@@ -24,20 +24,17 @@
                 </select>
             </div>
             <table>
-                <tr>
-                    <th>Device Name</th>
-                    <th>Device Type</th>
-                    <th>Checked Out Too</th>
-                    <th></th>
+                <tr class="special_tr">
+                    <th><i class="ion-ipad"></i> Device Name</th>
+                    <th><i class="ion-funnel"></i> Device Type</th>
+                    <th><i class="ion-person"></i> Checked Out Too</th>
                 </tr>
-
                 <tr ng-repeat="device in ctrl.devices | orderBy: [ctrl.selectedSort, 'device_name']" ui-sref="edit-device({device: device})" class="device-list">
                     <div class="text">
                         <td>{{device.device_name}}</td>
                         <td>{{device.device_type}}</td>
-                        <td>{{device.checked_out_user}}</td>
+                        <td>{{device.checked_out_user}}<button class="td_remove space-right" ng-click="ctrl.ForceCheckIn(device._id); $event.stopPropagation()">Force CheckIn</button></td>
                     </div>
-                    <td class="td_remove"><button class="td_remove" ng-click="ctrl.ForceCheckIn(device._id); $event.stopPropagation()">Force CheckIn</button></td>
                 </tr>
             </table>
         </div>

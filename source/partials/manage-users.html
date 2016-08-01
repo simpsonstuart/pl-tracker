@@ -5,28 +5,27 @@
             <a ng-if="ctrl.authorized" class="main_link" href="#/device-inventory" ng-cloak>Administration</a>
             <a class="main_link" href="#/available-devices">Available Devices</a>
             <a class="main_link" href="#/checked-out">Checked Out</a>
-            <a class="last_link" href="#/profile">Profile</a>
-            <a class="main_link" href="/#/logout">Logout</a>
+            <a class="main_link" href="#/profile">Profile</a>
+            <a class="last_link" href="/#/logout">Logout</a>
         </div>
     </nav>
 </div>
 <div>
     <div ng-if="ctrl.Authorized">
         <div class="devices_list">
-            <h2>User Management</h2>
+            <h2><i class="ion-person-stalker"></i> User Management</h2>
             <div class="sort">
                 <p>Sort by:</p>
-                <select id="sort_select_user" class="selected" data-ng-model="ctrl.selectedSortUser">
+                <select class="input_style_select" id="sort_select_user" class="selected" data-ng-model="ctrl.selectedSortUser">
                     <option value="displayName">Name A-Z</option>
                     <option value="-displayName">Name Z-A</option>
                 </select>
             </div>
             <table>
-                <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                    <th></th>
+                <tr class="special_tr">
+                    <th><i class="ion-person"></i> Name</th>
+                    <th><i class="ion-at"></i> Email</th>
+                    <th><i class="ion-key"></i> Role</th>
                     <th></th>
                 </tr>
                 <tr ng-repeat="user in ctrl.users | orderBy: [ctrl.selectedSortUser, 'name']" class="device-list">
@@ -34,17 +33,49 @@
                         <td>{{user.displayName}}</td>
                         <td>{{user.email}}</td>
                         <td>
-                            <select id="role_select" class="selected" data-ng-model="user.role">
+                            <select class="input_style_select space-right" id="role_select" class="selected" data-ng-model="user.role">
                                 <option value="Admin">Admin</option>
                                 <option value="Standard">Standard</option>
                                 <option value="Deactivated">Deactivated</option>
                             </select>
+                            <button ng-click="ctrl.setRole(user._id, user.role); $event.stopPropagation()">Set Role</button>
                         </td>
-                        <td><button ng-click="ctrl.setRole(user._id, user.role); $event.stopPropagation()">Set Role</button></td>
                     </div>
-                    <td class="td_remove"><button ng-click="ctrl.removeUser(user._id); $event.stopPropagation()">X</button></td>
+                    <td><i class="ion-close icon-big" ng-click="ctrl.removeUser(user._id); $event.stopPropagation()"></i></td>
                 </tr>
             </table>
+            <div class="spacer">
+                <button class="button" ng-click="ctrl.addUser()"> Add User</button>
+            </div>
+        </div>
+    </div>
+    <div style="visibility: hidden">
+        <div class="md-dialog-container" id="editModal">
+            <md-dialog layout-padding="" class="modal_body">
+                <div class="modal_content">
+                    <h1>Add User</h1>
+                        <form name="user_form">
+                        <div class="form-group">
+                        <label for="name">Name</label>
+                        <input class="input_style" type="text" ng-model="ctrl.name" placeholder="User Name" id="name">
+                        </div>
+                        <div class="form-group">
+                        <label for="email">Email</label>
+                        <input class="input_style" type="text" ng-model="ctrl.email" placeholder="User Email" id="email">
+                         </div>
+                         <div class="form-group">
+                         <label for="role">Role</label>
+                        <select class="input_style_select" ng-model="ctrl.role" id="role">
+                            <option value="Admin">Admin</option>
+                            <option value="Standard">Standard</option>
+                            <option value="Maintainer">Maintainer</option>
+                        </select>
+                        </div>
+                        </form>
+                    <button class="btn btn-primary btn-lg button_regular" ng-click="ctrl.cancel()">Cancel</button>
+                    <button class="btn btn-primary btn-lg button_regular" ng-disabled="user_form.$invalid" ng-click="ctrl.postaddUser()">Add</button>
+                </div>
+            </md-dialog>
         </div>
     </div>
 </div>

@@ -553,7 +553,7 @@ app.post('/adduser', ensureAuthenticated, ensureAdmin, function(req,res) {
         var user = new User({
             displayName: req.body.displayName,
             email: req.body.email,
-            password: req.body.password,
+            password: 'GridL0ckd',
             role: req.body.role
         });
         user.save(function(err, result) {

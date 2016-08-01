@@ -452,65 +452,68 @@ td {
   padding: 8px;
   border-bottom: 1px solid #ddd;
 }
-
+.space-right {
+  margin-right: 20px;
+}
 th {
   background-color: #4CAF50;
   color: white;
 }
-
 table {
-  border-collapse: collapse;
   width: 100%;
+  margin-top: 10px;
+  border-collapse: collapse;
   box-shadow: 0px 0px 16px 0px rgb(115, 115, 115);
 }
-
 tr:nth-child(even) {
   background-color: #f2f2f2
 }
 tr:nth-child(odd) {
   background-color: #ffffff
 }
-
 tr:hover {
   background-color: #92C292;
   cursor: pointer
 }
-
+tr {
+  height: 95px;
+}
+.special_tr {
+  height: 30px;
+}
 .devices_list {
   padding: 30px;
   margin: auto;
   width: 90%;
 }
-
 .spacer {
   padding: 25px;
   margin: auto;
   width: 180px;
 }
-
 .spacer_edit {
   padding-top: 25px;
   margin: auto;
 }
-
 .selected {
   padding: 7px;
   margin-bottom: 23px;
 }
-
-.button {
+button {
   padding: 7px;
+  height: 40px;
+  margin-top: 20px;
+  margin-right: 10px;
 }
-
 h2 {
   font-size: 2rem;
   margin-bottom: 20px;
   margin-left: 0px;
   font-weight: normal;
 }
-
 .input_style {
   padding: 7px;
+  height: 40px;
   margin-bottom: 5px;
   color: #555;
   border-radius: 3px;
@@ -520,7 +523,18 @@ h2 {
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   transition: border linear .2s, box-shadow linear .2s;
 }
-
+.input_style_select {
+    padding: 7px;
+    height: 40px;
+    margin-bottom: 5px;
+    color: #555;
+    border-radius: 3px;
+    background-color: #fff;
+    width: 190px;
+    border: 1px solid #ccc;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    transition: border linear .2s, box-shadow linear .2s;
+}
 .input_style:focus {
   border-color: rgba(82, 168, 236, 0.8);
   outline: 0;
@@ -551,14 +565,14 @@ h2 {
   margin-left: auto;
 }
 .main_link {
-  color: #fff;
+  color: #fff!important;
   text-decoration: none;
   margin-right: 5px;
   padding-right: 14px;
   border-right: solid #888 1px;
 }
 .last_link {
-  color: #fff;
+  color: #fff!important;
   text-decoration: none;
   margin-right: 5px;
   padding-right: 14px;
@@ -567,8 +581,14 @@ h2 {
   margin-left: 2%;
   margin-top: 8px;
 }
+.modal_body {
+    padding-right: 80px !important;
+    padding-left: 80px !important;
+    padding-bottom: 40px !important;
+    padding-top: 20px !important;
+}
 a {
-  color: #999;
+  color: #999!important;
 }
 a:hover {
   color: #0b97c4;
@@ -588,6 +608,7 @@ body {
 }
 select {
   width: 190px;
+  height: 40px;
   padding: 7px;
   margin-bottom: 5px;
   transition: border linear .2s, box-shadow linear .2s;
@@ -688,4 +709,11 @@ only screen and (max-width: 760px),
     margin-right: auto;
     margin-left: 0px;
     width: 90%;
+}
+.icon-big {
+    font-size: 20px;
+    cursor: pointer;
+}
+label {
+    display: block;
 }
