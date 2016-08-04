@@ -1,5 +1,5 @@
 angular.module('MyApp')
-    .controller('AvailDevicesCtrl', function($scope, $http, Account, toastr) {
+    .controller('AvailDevicesCtrl', function($scope, $http, Account, toastr, alertify, $mdDialog) {
         var ctrl = this;
         ctrl.selectedSort = 'device_name';
 
@@ -11,20 +11,35 @@ angular.module('MyApp')
                 ctrl.devices = _.filter(data, ['checked_out_user', "N/A"]);
             });
         }
-
+        ctrl.cancel = function() {
+            $mdDialog.hide();
+        };
         ctrl.checkOutDevice = function (device) {
+            ctrl.selectedDevice = device;
+            $mdDialog.show({
+                contentElement: '#checkoutDevice',
+                parent: angular.element(document.body)
+            });
+        };
+        ctrl.runCheckout = function() {
             Account.getProfile()
                 .then(function(response) {
                     ctrl.loggedInUser = response.data.displayName;
-                    $http.post('/checkout', {id: device._id, checked_out_user: ctrl.loggedInUser}).success(function(data, status) {
+                    $http.post('/checkout',
+                        {
+                            id: ctrl.selectedDevice,
+                            checked_out_user: ctrl.loggedInUser,
+                            duration: ctrl.checkoutDuration,
+                            duration_type: ctrl.checkoutDurationType
+                        }).success(function(data, status) {
                         getDevices();
-                        toastr.info("Checked Out!");
+                        $mdDialog.hide();
+                        alertify.alert('Device Checked Out too ' + ctrl.loggedInUser + '!');
                     });
                 })
                 .catch(function(response) {
                     toastr.error(response.data.message, response.status);
                 });
-
         };
 
     });

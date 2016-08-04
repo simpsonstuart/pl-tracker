@@ -24,17 +24,17 @@
     </div>
     <table>
       <tr class="special_tr">
-        <th>Device Name</th>
-        <th>Device Type</th>
-        <th>Device S/N</th>
-        <th>Device Manufacturer</th>
-        <th>Device Model</th>
-        <th>Software Version</th>
-        <th>Screen Resolution</th>
-        <th>RAM</th>
-        <th></th>
+          <th><i class="ion-ipad"></i> Name</th>
+          <th><i class="ion-funnel"></i> Type</th>
+          <th><i class="ion-ios-barcode"></i> S/N</th>
+          <th><i class="ion-soup-can"></i> Manufacturer</th>
+          <th><i class="ion-information-circled"></i> Model</th>
+          <th><i class="ion-code-working"></i> Software Version</th>
+          <th><i class="ion-monitor"></i> Screen Resolution</th>
+          <th><i class="ion-speedometer"></i> RAM</th>
+          <th><i class="ion-location"></i> Location</th>
       </tr>
-      <tr ng-repeat="device in ctrl.devices | orderBy: [ctrl.selectedSort, 'device_name']" class="device-list">
+      <tr ng-repeat="device in ctrl.devices | orderBy: [ctrl.selectedSort, 'device_name']" ng-click="ctrl.checkOutDevice(device); $event.stopPropagation()" class="device-list device-checkout">
         <div class="text">
           <td>{{device.device_name}}</td>
           <td>{{device.device_type}}</td>
@@ -42,11 +42,32 @@
           <td>{{device.device_manufacturer}}</td>
           <td>{{device.device_model}}</td>
           <td>{{device.sw_version}}</td>
-          <td>{{device.screen_resolution}}</td>
-          <td>{{device.device_ram}}</td>
+          <td>{{device.screen_width}}x{{device.screen_height}}</td>
+          <td>{{device.device_ram}}{{device.ram_type}}</td>
+          <td>{{device.location}}</td>
         </div>
-          <td class="td_remove"><button ng-click="ctrl.checkOutDevice(device); $event.stopPropagation()">CheckOut</button></td>
       </tr>
     </table>
   </div>
   </div>
+<div style="visibility: hidden">
+    <div class="md-dialog-container" id="checkoutDevice">
+        <md-dialog layout-padding="" class="modal_body">
+            <div class="modal_content">
+                <h1>Checkout Device</h1>
+                <form name="device_form">
+                    <div class="form-group">
+                        <input class="input_style device_ram_input" type="text" ng-model="ctrl.checkoutDuration" placeholder="Checkout Duration">
+                        <select class="input_style_select side_input" ng-model="ctrl.checkoutDurationType">
+                            <option value="Hours">Hours</option>
+                            <option value="Days">Days</option>
+                            <option value="Weeks">Weeks</option>
+                        </select>
+                    </div>
+                </form>
+                <button class="btn btn-primary btn-lg button_regular" ng-click="ctrl.cancel()">Cancel</button>
+                <button class="btn btn-primary btn-lg button_regular" ng-disabled="device_form.$invalid" ng-click="ctrl.runCheckout()">Checkout</button>
+            </div>
+        </md-dialog>
+    </div>
+</div>

@@ -37,6 +37,9 @@ var devicesSchema = new mongoose.Schema({
   screen_height: String,
   device_ram: String,
   ram_type: String,
+  location: String,
+  duration: String,
+  duration_type: String,
   checked_out_user: String
 });
 
@@ -380,6 +383,9 @@ app.post('/savedevices', ensureAdmin, function(req,res) {
         screen_height : req.body.screen_height,
         device_ram : req.body.device_ram,
         ram_type: req.body.ram_type,
+        location: req.body.location,
+        duration: req.body.duration,
+        duration_type: req.body.duration_type,
         checked_out_user : 'N/A',
         done : false
     }, function(err, devices) {
@@ -402,19 +408,23 @@ app.post('/checkout', ensureAuthenticated, function(req, res) {
       return res.status(400).send({ message: 'Device not found' });
     }
     Devices.checked_out_user = req.body.checked_out_user;
+    Devices.duration = req.body.duration;
+    Devices.duration_type = req.body.duration_type;
     Devices.save(function(err) {
       res.status(200).end();
     });
   });
 });
 
-//endpoint for checkout
+//endpoint for checkin
 app.post('/checkindevice', ensureAuthenticated, function(req, res) {
     Devices.findById(req.body.id, function(err, Devices) {
         if (!Devices) {
             return res.status(400).send({ message: 'Device not found' });
         }
         Devices.checked_out_user = 'N/A';
+        Devices.duration = '';
+        Devices.duration_type = '';
         Devices.save(function(err) {
             res.status(200).end();
         });
@@ -450,6 +460,9 @@ app.post('/updatedevices', ensureAuthenticated, ensureAdmin, function(req, res) 
         Devices.screen_height = req.body.screen_height;
         Devices.device_ram = req.body.device_ram;
         Devices.ram_type = req.body.ram_type;
+        Devices.location = req.body.location;
+        Devices.duration = req.body.duration;
+        Devices.duration_type = req.body.duration_type;
         Devices.save(function(err) {
             res.status(200).end();
         });

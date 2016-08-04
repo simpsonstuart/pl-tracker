@@ -734,3 +734,9 @@ label {
     border-bottom: none;
     padding: 20px;
 }
+.device-checkout {
+    cursor: pointer;
+}
+.device-checkout:hover {
+    background-color: rgba(120, 230, 124, 0.3);
+}

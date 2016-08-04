@@ -33,6 +33,7 @@
                     <th><i class="ion-code-working"></i> Software Version</th>
                     <th><i class="ion-monitor"></i> Screen Resolution</th>
                     <th><i class="ion-speedometer"></i> RAM</th>
+                    <th><i class="ion-location"></i> Location</th>
                     <th></th>
                     <th></th>
                 </tr>
@@ -47,6 +48,7 @@
                         <td>{{device.sw_version}}</td>
                         <td>{{device.screen_width}}x{{device.screen_height}}</td>
                         <td>{{device.device_ram}}{{device.ram_type}}</td>
+                        <td>{{device.location}}</td>
                     </div>
                     <td><i class="ion-edit icon-big" ng-click="ctrl.editDevice(device); $event.stopPropagation()"></i></td>
                     <td><i class="ion-close icon-big" ng-click="ctrl.removeItem(device._id); $event.stopPropagation()"></i></td>
@@ -61,7 +63,7 @@
                 <md-dialog layout-padding="" class="modal_body">
                     <div class="modal_content">
                         <h1>Add Device</h1>
-                        <form name="device_form">
+                        <form name="add_device_form">
                             <div class="form-group">
                                 <input class="input_style" type="text" ng-model="ctrl.device_name" placeholder="Device Name">
                                 </div>
@@ -73,7 +75,9 @@
                                     <option value="Computer">Computer</option>
                                 </select>
                                 </div>
+                                <div class="form-group">
                                 <input class="input_style" type="text" ng-model="ctrl.device_sn" placeholder="Device S/N">
+                                </div>
                                 <div class="form-group">
                                 <input class="input_style" type="text" ng-model="ctrl.device_manufacturer" placeholder="Manufacturer">
                                 </div>
@@ -95,9 +99,12 @@
                                         <option value="KB">KB</option>
                                     </select>
                                 </div>
+                            <div class="form-group">
+                                <input class="input_style" type="text" ng-model="ctrl.location" placeholder="Location" required>
+                            </div>
                         </form>
                         <button class="btn btn-primary btn-lg button_regular" ng-click="ctrl.cancel()">Cancel</button>
-                        <button class="btn btn-primary btn-lg button_regular" ng-disabled="device_form.$invalid" ng-click="ctrl.postAddDevice()">Add</button>
+                        <button class="btn btn-primary btn-lg button_regular" ng-disabled="add_device_form.$invalid" ng-click="ctrl.postAddDevice()">Add</button>
                     </div>
                 </md-dialog>
             </div>
@@ -119,7 +126,9 @@
                                     <option value="Computer">Computer</option>
                                 </select>
                             </div>
+                            <div class="form-group">
                             <input class="input_style" type="text" ng-model="ctrl.deviceData.device_sn" placeholder="Device S/N">
+                            </div>
                             <div class="form-group">
                                 <input class="input_style" type="text" ng-model="ctrl.deviceData.device_manufacturer" placeholder="Manufacturer">
                             </div>
@@ -140,6 +149,9 @@
                                     <option value="MB">MB</option>
                                     <option value="KB">KB</option>
                                 </select>
+                            </div>
+                            <div class="form-group">
+                                <input class="input_style" type="text" ng-model="ctrl.deviceData.location" placeholder="Location" required>
                             </div>
                         </form>
                         <button class="btn btn-primary btn-lg button_regular" ng-click="ctrl.cancel()">Cancel</button>

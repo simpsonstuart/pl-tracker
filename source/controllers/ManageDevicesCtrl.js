@@ -64,6 +64,9 @@ angular.module('MyApp')
                   , device_ram: ctrl.device_ram
                   , ram_type: ctrl.device_ram_type
                   , checked_out_user: 'N/A'
+                  , duration: ''
+                  , duration_type: ''
+                  ,location: ctrl.location
               }).then(function(data, status) {
               getDevices();
               $mdDialog.hide();
@@ -81,14 +84,16 @@ angular.module('MyApp')
                   screen_width: ctrl.deviceData.screen_width,
                   screen_height: ctrl.deviceData.screen_height,
                   device_ram: ctrl.deviceData.device_ram,
-                  ram_type:  ctrl.deviceData.ram_type
+                  ram_type:  ctrl.deviceData.ram_type,
+                  location: ctrl.deviceData.location,
+                  duration: ctrl.deviceData.duration,
+                  duration_type: ctrl.deviceData.duration_type
       }).then(function (data, status) {
                   $mdDialog.hide();
               });
       };
       ctrl.editDevice = function (deviceData) {
           ctrl.deviceData = deviceData;
-          console.log(deviceData);
           $mdDialog.show({
               contentElement: '#editDevice',
               parent: angular.element(document.body)
