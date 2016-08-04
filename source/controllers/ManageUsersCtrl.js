@@ -23,34 +23,44 @@ angular.module('MyApp')
                   toastr.error(response.data.message, response.status);
               })
       }
-      //removes user from list
+      // removes user from list
       ctrl.removeUser = function(id) {
           // confirm dialog
           alertify.confirm("Are you sure you want to delete the user?", function (e) {
               if (e) {
-                  $http.post('/deleteuser',{id: id}).success(function(data, status) {
+                  $http.post('/deleteuser',{id: id}).then(function(data, status) {
                   });
                   getUsers();
               } else {
               }
           });
       };
+      // edit user logic
+      ctrl.editUser = function(id) {
+          $http.get('/get-user' + '?id=' + id).then(function (response) {
+              ctrl.user = response.data;
+          });
+          $mdDialog.show({
+              contentElement: '#editUserModal',
+              parent: angular.element(document.body)
+          });
+      };
 
-      //gets list of users
+      // gets list of users
       function getUsers() {
-          $http.get('/users').success(function (data) {
-              ctrl.users = data;
+          $http.get('/users').then(function (response) {
+              ctrl.users = response.data;
           });
       }
 
-      //set role of user
+      // set role of user
       ctrl.setRole = function(id, role) {
           // confirm dialog
           alertify.confirm("Are you sure you want to set the user role?", function (e) {
               if (e) {
-                  $http.post('/setabstractionrole',{id: id, role: role}).success(function(data, status) {
+                  $http.post('/setabstractionrole',{id: id, role: role}).then(function(data, status) {
+                      getUsers();
                   });
-                  getUsers();
               } else {
               }
           });
@@ -66,6 +76,13 @@ angular.module('MyApp')
       };
       ctrl.postaddUser = function() {
           $http.post('/adduser', { displayName: ctrl.name, email: ctrl.email, role: ctrl.role}).then(function(data, status) {
+              getUsers();
+              $mdDialog.hide();
+          });
+      };
+      ctrl.posteditUser = function() {
+          $http.put('/update-user', { id: ctrl.user._id, displayName: ctrl.user.displayName, email: ctrl.user.email, role: ctrl.user.role}).then(function(data, status) {
+              getUsers();
               $mdDialog.hide();
           });
       };

@@ -136,7 +136,7 @@ angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.
     });
 
     $authProvider.bitbucket({
-      clientId: 'ap42yBVbAJRXxym6M4'
+      clientId: 'pxp9pJU7DhZR2m3FvC'
     });
 
     function skipIfLoggedIn($q, $auth) {

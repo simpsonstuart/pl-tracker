@@ -471,10 +471,6 @@ tr:nth-child(even) {
 tr:nth-child(odd) {
   background-color: #ffffff
 }
-tr:hover {
-  background-color: #92C292;
-  cursor: pointer
-}
 tr {
   height: 95px;
 }

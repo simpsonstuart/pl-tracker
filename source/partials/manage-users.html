@@ -19,6 +19,11 @@
                 <select class="input_style_select" id="sort_select_user" class="selected" data-ng-model="ctrl.selectedSortUser">
                     <option value="displayName">Name A-Z</option>
                     <option value="-displayName">Name Z-A</option>
+                    <option value="email">Email A-Z</option>
+                    <option value="-email">Email Z-A</option>
+                    <option value="email">Email A-Z</option>
+                    <option value="role">Admin First</option>
+                    <option value="-role">Standard First</option>
                 </select>
             </div>
             <table>
@@ -26,6 +31,7 @@
                     <th><i class="ion-person"></i> Name</th>
                     <th><i class="ion-at"></i> Email</th>
                     <th><i class="ion-key"></i> Role</th>
+                    <th></th>
                     <th></th>
                 </tr>
                 <tr ng-repeat="user in ctrl.users | orderBy: [ctrl.selectedSortUser, 'name']" class="device-list">
@@ -41,6 +47,7 @@
                             <button ng-click="ctrl.setRole(user._id, user.role); $event.stopPropagation()">Set Role</button>
                         </td>
                     </div>
+                    <td><i class="ion-edit icon-big" ng-click="ctrl.editUser(user._id); $event.stopPropagation()"></i></td>
                     <td><i class="ion-close icon-big" ng-click="ctrl.removeUser(user._id); $event.stopPropagation()"></i></td>
                 </tr>
             </table>
@@ -54,18 +61,18 @@
             <md-dialog layout-padding="" class="modal_body">
                 <div class="modal_content">
                     <h1>Add User</h1>
-                        <form name="user_form">
+                        <form name="add_form">
                         <div class="form-group">
                         <label for="name">Name</label>
-                        <input class="input_style" type="text" ng-model="ctrl.name" placeholder="User Name" id="name">
+                        <input class="input_style" type="text" ng-model="ctrl.name" placeholder="User Name" id="name" required>
                         </div>
                         <div class="form-group">
                         <label for="email">Email</label>
-                        <input class="input_style" type="text" ng-model="ctrl.email" placeholder="User Email" id="email">
+                        <input class="input_style" type="text" ng-model="ctrl.email" placeholder="User Email" id="email" required>
                          </div>
                          <div class="form-group">
                          <label for="role">Role</label>
-                        <select class="input_style_select" ng-model="ctrl.role" id="role">
+                        <select class="input_style_select" ng-model="ctrl.role" id="role" required>
                             <option value="Admin">Admin</option>
                             <option value="Standard">Standard</option>
                             <option value="Maintainer">Maintainer</option>
@@ -73,7 +80,36 @@
                         </div>
                         </form>
                     <button class="btn btn-primary btn-lg button_regular" ng-click="ctrl.cancel()">Cancel</button>
-                    <button class="btn btn-primary btn-lg button_regular" ng-disabled="user_form.$invalid" ng-click="ctrl.postaddUser()">Add</button>
+                    <button class="btn btn-primary btn-lg button_regular" ng-disabled="add_form.$invalid" ng-click="ctrl.postaddUser()">Add</button>
+                </div>
+            </md-dialog>
+        </div>
+    </div>
+    <div style="visibility: hidden">
+        <div class="md-dialog-container" id="editUserModal">
+            <md-dialog layout-padding="" class="modal_body">
+                <div class="modal_content">
+                    <h1>Edit User</h1>
+                    <form name="user_form">
+                        <div class="form-group">
+                            <label for="displayname">Name</label>
+                            <input class="input_style" type="text" ng-model="ctrl.user.displayName" placeholder="User Name" id="displayname" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="useremail">Email</label>
+                            <input class="input_style" type="text" ng-model="ctrl.user.email" placeholder="User Email" id="useremail" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="userrole">Role</label>
+                            <select class="input_style_select" ng-model="ctrl.user.role" id="userrole" required>
+                                <option value="Admin">Admin</option>
+                                <option value="Standard">Standard</option>
+                                <option value="Maintainer">Maintainer</option>
+                            </select>
+                        </div>
+                    </form>
+                    <button class="btn btn-primary btn-lg button_regular" ng-click="ctrl.cancel()">Cancel</button>
+                    <button class="btn btn-primary btn-lg button_regular" ng-disabled="user_form.$invalid" ng-click="ctrl.posteditUser()">Update</button>
                 </div>
             </md-dialog>
         </div>

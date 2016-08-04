@@ -114,7 +114,19 @@ function ensureAdmin (req, res, next) {
     if (!req.header('Authorization')) {
         return res.status(401).send({message: 'Please make sure your request has an Authorization header'});
     }
-    User.findById(req.user, function (err, user) {
+    var token = req.header('Authorization').split(' ')[1];
+
+    var payload = null;
+    try {
+        payload = jwt.decode(token, config.TOKEN_SECRET);
+    }
+    catch (err) {
+        return res.status(401).send({ message: err.message });
+    }
+    if (payload.exp <= moment().unix()) {
+        return res.status(401).send({ message: 'Token has expired can not get role' });
+    }
+    User.findById(payload.sub, function (err, user) {
         if (user.role === 'Admin') {
             next();
         }
@@ -337,7 +349,11 @@ app.post('/auth/github', function(req, res) {
                     user.github = profile.id;
                     user.picture = profile.avatar_url;
                     user.displayName = profile.name;
-                    user.role = 'Deactivated';
+                    if (profile.company === '@VYNYL') {
+                        user.role = 'Standard';
+                    } else {
+                        user.role = 'Deactivated';
+                    }
                     user.email = profile.email;
                     user.save(function() {
                         var token = createJWT(user);
@@ -345,89 +361,6 @@ app.post('/auth/github', function(req, res) {
                     });
                 });
             }
-        });
-    });
-});
-
-/*
- |--------------------------------------------------------------------------
- | Login with Bitbucket
- |--------------------------------------------------------------------------
- */
-app.post('/auth/bitbucket', function(req, res) {
-    var accessTokenUrl = 'https://bitbucket.org/site/oauth2/access_token';
-    var userApiUrl = 'https://bitbucket.org/api/2.0/user';
-    var emailApiUrl = 'https://bitbucket.org/api/2.0/user/emails';
-
-    var headers = {
-        Authorization: 'Basic ' + new Buffer(req.body.clientId + ':' + config.BITBUCKET_SECRET).toString('base64')
-    };
-
-    var formData = {
-        code: req.body.code,
-        redirect_uri: req.body.redirectUri,
-        grant_type: 'authorization_code'
-    };
-
-    // Step 1. Exchange authorization code for access token.
-    request.post({ url: accessTokenUrl, form: formData, headers: headers, json: true }, function(err, response, body) {
-        if (body.error) {
-            return res.status(400).send({ message: body.error_description });
-        }
-
-        var params = {
-            access_token: body.access_token
-        };
-
-        // Step 2. Retrieve information about the current user.
-        request.get({ url: userApiUrl, qs: params, json: true }, function(err, response, profile) {
-
-            // Step 2.5. Retrieve current user's email.
-            request.get({ url: emailApiUrl, qs: params, json: true }, function(err, response, emails) {
-                var email = emails.values[0].email;
-
-                // Step 3a. Link user accounts.
-                if (req.header('Authorization')) {
-                    User.findOne({ bitbucket: profile.uuid }, function(err, existingUser) {
-                        if (existingUser) {
-                            return res.status(409).send({ message: 'There is already a Bitbucket account that belongs to you' });
-                        }
-                        var token = req.header('Authorization').split(' ')[1];
-                        var payload = jwt.decode(token, config.TOKEN_SECRET);
-                        User.findById(payload.sub, function(err, user) {
-                            if (!user) {
-                                return res.status(400).send({ message: 'User not found' });
-                            }
-                            user.bitbucket = profile.uuid;
-                            user.email = user.email || email;
-                            user.picture = user.picture || profile.links.avatar.href;
-                            user.displayName = user.displayName || profile.display_name;
-                            user.save(function() {
-                                var token = createJWT(user);
-                                res.send({ token: token });
-                            });
-                        });
-                    });
-                } else {
-                    // Step 3b. Create a new user account or return an existing one.
-                    User.findOne({ bitbucket: profile.id }, function(err, existingUser) {
-                        if (existingUser) {
-                            var token = createJWT(existingUser);
-                            return res.send({ token: token });
-                        }
-                        var user = new User();
-                        user.bitbucket = profile.uuid;
-                        user.email = profile.email;
-                        user.picture = profile.links.avatar.href;
-                        user.role = 'Deactivated';
-                        user.displayName = profile.display_name;
-                        user.save(function() {
-                            var token = createJWT(user);
-                            res.send({ token: token });
-                        });
-                    });
-                }
-            });
         });
     });
 });
@@ -562,6 +495,31 @@ app.post('/adduser', ensureAuthenticated, ensureAdmin, function(req,res) {
             }
             res.send(201);
         });
+    });
+});
+
+//endpoint for edit user
+app.put('/update-user', ensureAuthenticated, ensureAdmin, function(req, res) {
+    console.log(req.body.id);
+    User.findById(req.body.id, function(err, User) {
+        if (!User) {
+            return res.status(400).send({ message: 'User not found' });
+        }
+        User.displayName = req.body.displayName;
+        User.email = req.body.email;
+        User.role = req.body.role;
+        User.save(function(err) {
+            res.status(200).end();
+        });
+    });
+});
+ // endpoint for get user
+app.get('/get-user', ensureAuthenticated, ensureAdmin, function(req, res) {
+    User.findById(req.query.id, function(err, User) {
+        if (!User) {
+            return res.status(400).send({ message: 'User not found' });
+        }
+        res.send(User);
     });
 });
 //endpoint for reset password
