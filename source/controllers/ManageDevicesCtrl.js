@@ -1,5 +1,5 @@
 angular.module('MyApp')
-  .controller('ManageDevicesCtrl', function($scope, $auth, toastr, $http, Account, $state, $mdDialog) {
+  .controller('ManageDevicesCtrl', function($scope, $auth, toastr, $http, Account, $state, $mdDialog, alertify) {
       var ctrl            = this;
       ctrl.hideDeviceList = false;
       ctrl.showAddDevice = false;
@@ -28,9 +28,9 @@ angular.module('MyApp')
       ctrl.removeItem = function(id) {
           alertify.confirm("Are you sure you want to delete the device?", function (e) {
               if (e) {
-                  $http.post('/deletedevice',{id: id}).success(function(data, status) {
+                  $http.post('/deletedevice',{id: id}).then(function(data, status) {
+                      getDevices();
                   });
-                  getDevices();
               } else {
               }
           });
@@ -38,8 +38,8 @@ angular.module('MyApp')
 
       //gets list of devices
       function getDevices() {
-          $http.get('/devices').success(function (data) {
-              ctrl.devices = data;
+          $http.get('/devices').then(function (response) {
+              ctrl.devices = response.data;
           });
       }
       ctrl.addDevice = function () {
@@ -59,15 +59,17 @@ angular.module('MyApp')
                   , device_manufacturer: ctrl.device_manufacturer
                   , device_model: ctrl.device_model
                   , sw_version: ctrl.sw_version
-                  , screen_resolution: ctrl.screen_resolution
+                  , screen_width: ctrl.screen_width
+                  , screen_height: ctrl.screen_height
                   , device_ram: ctrl.device_ram
+                  , ram_type: ctrl.device_ram_type
                   , checked_out_user: 'N/A'
               }).then(function(data, status) {
+              getDevices();
               $mdDialog.hide();
           });
       };
       ctrl.postEditDevice = function () {
-          ctrl.saveUpdatedData = function () {
               $http.post('/updatedevices', {
                   id: ctrl.deviceData._id,
                   device_name: ctrl.deviceData.device_name,
@@ -76,15 +78,17 @@ angular.module('MyApp')
                   device_manufacturer: ctrl.deviceData.device_manufacturer,
                   device_model: ctrl.deviceData.device_model,
                   sw_version: ctrl.deviceData.sw_version,
-                  screen_resolution: ctrl.deviceData.screen_resolution,
-                  device_ram: ctrl.deviceData.device_ram
-              }).then(function (data, status) {
+                  screen_width: ctrl.deviceData.screen_width,
+                  screen_height: ctrl.deviceData.screen_height,
+                  device_ram: ctrl.deviceData.device_ram,
+                  ram_type:  ctrl.deviceData.ram_type
+      }).then(function (data, status) {
                   $mdDialog.hide();
               });
-          };
       };
       ctrl.editDevice = function (deviceData) {
           ctrl.deviceData = deviceData;
+          console.log(deviceData);
           $mdDialog.show({
               contentElement: '#editDevice',
               parent: angular.element(document.body)

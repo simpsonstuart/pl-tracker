@@ -28,15 +28,18 @@
                     <th><i class="ion-ipad"></i> Device Name</th>
                     <th><i class="ion-funnel"></i> Device Type</th>
                     <th><i class="ion-person"></i> Checked Out Too</th>
+                    <th><i class="ion-forward"></i> Force Check In</th>
                 </tr>
                 <tr ng-repeat="device in ctrl.devices | orderBy: [ctrl.selectedSort, 'device_name']" ui-sref="edit-device({device: device})" class="device-list">
                     <div class="text">
                         <td>{{device.device_name}}</td>
                         <td>{{device.device_type}}</td>
-                        <td>{{device.checked_out_user}}<button class="td_remove space-right" ng-click="ctrl.ForceCheckIn(device._id); $event.stopPropagation()">Force CheckIn</button></td>
+                        <td>{{device.checked_out_user}}</td>
+                        <td><i class="ion-checkmark-round icon-big" ng-click="ctrl.ForceCheckIn(device._id); $event.stopPropagation()"></i></td>
                     </div>
                 </tr>
             </table>
+            <h2 ng-if="ctrl.showNoCheckouts" class="no_checkouts"><i class="ion-information-circled"></i> No Devices Checked Out!</h2>
         </div>
     </div>
 </div>

@@ -451,6 +451,10 @@ td {
   text-align: left;
   padding: 8px;
   border-bottom: 1px solid #ddd;
+  vertical-align: middle;
+}
+.td_role {
+  vertical-align: inherit;
 }
 .space-right {
   margin-right: 20px;
@@ -715,4 +719,18 @@ only screen and (max-width: 760px),
 }
 label {
     display: block;
+}
+.side_input {
+    width: 58px;
+}
+.device_ram_input {
+    width: 130px;
+}
+.screen_input {
+    width: 87.5px;
+}
+.no_checkouts {
+    text-align: center;
+    border-bottom: none;
+    padding: 20px;
 }

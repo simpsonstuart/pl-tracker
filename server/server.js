@@ -33,8 +33,10 @@ var devicesSchema = new mongoose.Schema({
   device_manufacturer: String,
   device_model: String,
   sw_version: String,
-  screen_resolution: String,
+  screen_width: String,
+  screen_height: String,
   device_ram: String,
+  ram_type: String,
   checked_out_user: String
 });
 
@@ -374,8 +376,10 @@ app.post('/savedevices', ensureAdmin, function(req,res) {
         device_manufacturer : req.body.device_manufacturer,
         device_model : req.body.device_model,
         sw_version : req.body.sw_version,
-        screen_resolution : req.body.screen_resolution,
+        screen_width : req.body.screen_width,
+        screen_height : req.body.screen_height,
         device_ram : req.body.device_ram,
+        ram_type: req.body.ram_type,
         checked_out_user : 'N/A',
         done : false
     }, function(err, devices) {
@@ -442,8 +446,10 @@ app.post('/updatedevices', ensureAuthenticated, ensureAdmin, function(req, res) 
         Devices.device_manufacturer = req.body.device_manufacturer;
         Devices.device_model = req.body.device_model;
         Devices.sw_version = req.body.sw_version;
-        Devices.screen_resolution = req.body.screen_resolution;
+        Devices.screen_width = req.body.screen_width;
+        Devices.screen_height = req.body.screen_height;
         Devices.device_ram = req.body.device_ram;
+        Devices.ram_type = req.body.ram_type;
         Devices.save(function(err) {
             res.status(200).end();
         });

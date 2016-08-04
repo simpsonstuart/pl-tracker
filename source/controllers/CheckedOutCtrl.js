@@ -8,6 +8,9 @@ angular.module('MyApp')
         function getDevices() {
             $http.get('/devices').success(function (data) {
                 ctrl.devices = _.reject(data, ['checked_out_user', "N/A"]);
+                if (!ctrl.devices.length) {
+                    ctrl.showNoCheckouts = true;
+                }
             });
         }
     });

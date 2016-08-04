@@ -1,5 +1,5 @@
 angular.module('MyApp')
-  .controller('ManageCheckoutsCtrl', function($scope, $auth, toastr, $http, Account, $state) {
+  .controller('ManageCheckoutsCtrl', function($scope, $auth, toastr, $http, Account, $state, alertify) {
       var ctrl            = this;
       ctrl.hideDeviceList = false;
       ctrl.showAddDevice = false;
@@ -32,8 +32,11 @@ angular.module('MyApp')
 
       //gets list of devices
       function getDevices() {
-          $http.get('/devices').success(function (data) {
-              ctrl.devices = data;
+          $http.get('/devices').then(function (response) {
+              ctrl.devices = _.reject(response.data, ['checked_out_user', "N/A"]);
+              if (!ctrl.devices.length) {
+                  ctrl.showNoCheckouts = true;
+              }
           });
       }
       ctrl.ForceCheckIn = function (deviceId) {
