@@ -10,6 +10,7 @@ angular.module('MyApp')
               .then(function(response) {
                   $http.get('/devices').success(function (data) {
                       ctrl.devices = _.filter(data, ['checked_out_user', response.data.displayName]);
+                      ctrl.selectedUser = response.data._id;
                   });
               })
               .catch(function(response) {
@@ -42,6 +43,14 @@ angular.module('MyApp')
           toastr.error(response.data.message, response.status);
         });
     };
+      ctrl.updatePassword = function() {
+          $http.post('/resetpassword-user', { id: ctrl.selectedUser, old_password: ctrl.oldPassword }).then(function(data, status) {
+              toastr.success('Password has been changed!');
+          })
+          .catch(function(response) {
+              toastr.error('Current Password Invalid!')
+          });
+      };
     $scope.link = function(provider) {
       $auth.link(provider)
         .then(function() {

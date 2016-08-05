@@ -29,9 +29,14 @@ angular.module('MyApp')
             ctrl.devices = _.filter(ctrl.devicesFiltered, ['location', ctrl.selectedLocation]);
         };
         ctrl.checkInDevice = function (deviceId) {
-            $http.post('/checkindevice', {id: deviceId}).then(function(data, status) {
-                getDevices();
-                alertify.alert('Device Checked In');
+            alertify.confirm("Are you sure you want to check-in the device?", function (e) {
+                if (e) {
+                    $http.post('/checkindevice', {id: deviceId}).then(function(data, status) {
+                        getDevices();
+                        alertify.alert('Device Checked-In');
+                    });
+                } else {
+                }
             });
         };
     });

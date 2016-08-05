@@ -48,6 +48,9 @@ angular.module('MyApp')
 
         ctrl.filterLocation = function() {
             ctrl.devices = _.filter(ctrl.devicesFiltered, ['location', ctrl.selectedLocation]);
+            if (!ctrl.devices.length) {
+                ctrl.showNoDevices = true;
+            }
         };
 
     });

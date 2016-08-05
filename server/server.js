@@ -542,6 +542,25 @@ app.get('/get-user', ensureAuthenticated, ensureAdmin, function(req, res) {
     });
 });
 //endpoint for reset password
+app.post('/resetpassword-user', ensureAuthenticated, function(req,res) {
+    User.findById(req.body.id,'+password', function (err, User) {
+        if (!User) {
+            return res.status(400).send({message: 'User not found'});
+        }
+        console.log(User);
+        User.comparePassword(req.body.old_password, function (err, isMatch) {
+            if (isMatch) {
+                User.password = req.body.password;
+                User.save(function (err) {
+                    res.status(200).end();
+                });
+            } else {
+                return res.status(401).send({message: 'Incorrect Old Password!'});
+            }
+        });
+    });
+});
+//endpoint for reset password admin
 app.post('/resetpassword', ensureAuthenticated, ensureAdmin, function(req,res) {
     User.findById(req.body.id, function(err, User) {
         if (!User) {
