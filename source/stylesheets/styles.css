@@ -723,6 +723,9 @@ label {
 .side_input {
     width: 58px;
 }
+.side_input_checkout {
+    width: 81px;
+}
 .device_ram_input {
     width: 130px;
 }
@@ -739,4 +742,7 @@ label {
 }
 .device-checkout:hover {
     background-color: rgba(120, 230, 124, 0.3);
+}
+.clickable {
+    cursor: pointer;
 }

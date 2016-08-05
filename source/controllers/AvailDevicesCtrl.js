@@ -2,6 +2,8 @@ angular.module('MyApp')
     .controller('AvailDevicesCtrl', function($scope, $http, Account, toastr, alertify, $mdDialog) {
         var ctrl = this;
         ctrl.selectedSort = 'device_name';
+        ctrl.checkoutDurationType ='Hours';
+        ctrl.showSecondName = false;
 
         getDevices();
 
