@@ -4,10 +4,11 @@ angular.module('MyApp')
       ctrl.hideDeviceList = false;
       ctrl.showAddDevice = false;
       ctrl.showEditDevice = false;
-      getAuth();
-      getDevices();
+      ctrl.selectedLocation = 'Boise';
       ctrl.selectedSort = 'device_name';
       ctrl.device_type = 'Phone';
+      getAuth();
+      getDevices();
       
       function getAuth() {
           Account.getProfile()
@@ -39,7 +40,8 @@ angular.module('MyApp')
       //gets list of devices
       function getDevices() {
           $http.get('/devices').then(function (response) {
-              ctrl.devices = response.data;
+              ctrl.devicesFiltered = response.data;
+              ctrl.filterLocation();
           });
       }
       ctrl.addDevice = function () {
@@ -98,5 +100,8 @@ angular.module('MyApp')
               contentElement: '#editDevice',
               parent: angular.element(document.body)
           });
+      };
+      ctrl.filterLocation = function() {
+          ctrl.devices = _.filter(ctrl.devicesFiltered, ['location', ctrl.selectedLocation]);
       };
   });

@@ -746,3 +746,6 @@ label {
 .clickable {
     cursor: pointer;
 }
+.check-in {
+    margin-left: 30px;
+}
