@@ -4,13 +4,15 @@ angular.module('MyApp')
         ctrl.selectedSort = 'device_name';
         ctrl.checkoutDurationType ='Hours';
         ctrl.showSecondName = false;
+        ctrl.selectedLocation = 'Boise';
 
         getDevices();
 
         //gets list of devices
         function getDevices() {
             $http.get('/devices').success(function (data) {
-                ctrl.devices = _.filter(data, ['checked_out_user', "N/A"]);
+                ctrl.devicesFiltered = _.filter(data, ['checked_out_user', "N/A"]);
+                ctrl.filterLocation();
             });
         }
         ctrl.cancel = function() {
@@ -42,6 +44,10 @@ angular.module('MyApp')
                 .catch(function(response) {
                     toastr.error(response.data.message, response.status);
                 });
+        };
+
+        ctrl.filterLocation = function() {
+            ctrl.devices = _.filter(ctrl.devicesFiltered, ['location', ctrl.selectedLocation]);
         };
 
     });

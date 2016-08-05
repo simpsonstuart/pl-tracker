@@ -15,10 +15,10 @@
     <h2>Available Devices</h2>
     <div class="sort">
       <p>Location:</p>
-      <select id="sort_select" class="selected" data-ng-model="ctrl.selectedSort">
+      <select id="sort_select" class="selected" data-ng-model="ctrl.selectedLocation" ng-change="ctrl.filterLocation()">
         <option value="Boise">Boise</option>
-        <option value="Boise">L.A.</option>
-        <option value="Boise">Laguna</option>
+        <option value="LA">L.A.</option>
+        <option value="Laguna">Laguna</option>
       </select>
     </div>
     <table>
