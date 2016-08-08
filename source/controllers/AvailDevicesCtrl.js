@@ -33,6 +33,7 @@ angular.module('MyApp')
                         {
                             id: ctrl.selectedDevice,
                             checked_out_user: ctrl.loggedInUser,
+                            checked_out_user_id: response.data._id,
                             duration: ctrl.checkoutDuration,
                             duration_type: ctrl.checkoutDurationType
                         }).success(function(data, status) {

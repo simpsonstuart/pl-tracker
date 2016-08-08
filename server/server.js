@@ -40,7 +40,8 @@ var devicesSchema = new mongoose.Schema({
   location: String,
   duration: String,
   duration_type: String,
-  checked_out_user: String
+  checked_out_user: String,
+  checked_out_user_id: String
 });
 
 userSchema.pre('save', function(next) {
@@ -387,6 +388,7 @@ app.post('/savedevices', ensureAdmin, function(req,res) {
         duration: req.body.duration,
         duration_type: req.body.duration_type,
         checked_out_user : 'N/A',
+        checked_out_user_id: '',
         done : false
     }, function(err, devices) {
         if (err)
@@ -408,6 +410,7 @@ app.post('/checkout', ensureAuthenticated, function(req, res) {
       return res.status(400).send({ message: 'Device not found' });
     }
     Devices.checked_out_user = req.body.checked_out_user;
+    Devices.checked_out_user_id = req.body.checked_out_user_id;
     Devices.duration = req.body.duration;
     Devices.duration_type = req.body.duration_type;
     Devices.save(function(err) {
@@ -416,18 +419,38 @@ app.post('/checkout', ensureAuthenticated, function(req, res) {
   });
 });
 
-//endpoint for checkin
+//endpoint for check-in
 app.post('/checkindevice', ensureAuthenticated, function(req, res) {
     Devices.findById(req.body.id, function(err, Devices) {
         if (!Devices) {
             return res.status(400).send({ message: 'Device not found' });
         }
-        Devices.checked_out_user = 'N/A';
-        Devices.duration = '';
-        Devices.duration_type = '';
-        Devices.save(function(err) {
-            res.status(200).end();
-        });
+        if (req.body.user === Devices.checked_out_user_id) {
+            Devices.checked_out_user = 'N/A';
+            Devices.checked_out_user_id = '';
+            Devices.duration = '';
+            Devices.duration_type = '';
+            Devices.save(function(err) {
+                res.status(200).end();
+            });
+        } else {
+            return res.status(401).send({ message: 'Not authorized to check-in device!' });
+        }
+    });
+});
+//endpoint for force check-in
+app.post('/force-checkin', ensureAuthenticated, ensureAdmin, function(req, res) {
+    Devices.findById(req.body.id, function(err, Devices) {
+        if (!Devices) {
+            return res.status(400).send({ message: 'Device not found' });
+        }
+            Devices.checked_out_user = 'N/A';
+            Devices.checked_out_user_id = '';
+            Devices.duration = '';
+            Devices.duration_type = '';
+            Devices.save(function(err) {
+                res.status(200).end();
+            });
     });
 });
 
@@ -566,7 +589,7 @@ app.post('/resetpassword', ensureAuthenticated, ensureAdmin, function(req,res) {
         if (!User) {
             return res.status(400).send({ message: 'User not found' });
         }
-        User.password = req.body.password;
+        User.password = 'GridL0ckd';
         User.save(function(err) {
             res.status(200).end();
         });

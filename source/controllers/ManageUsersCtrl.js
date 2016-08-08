@@ -77,12 +77,20 @@ angular.module('MyApp')
       ctrl.postaddUser = function() {
           $http.post('/adduser', { displayName: ctrl.name, email: ctrl.email, role: ctrl.role}).then(function(data, status) {
               getUsers();
+              alertify.alert('User '+ ctrl.name + ' added!');
               $mdDialog.hide();
           });
       };
       ctrl.posteditUser = function() {
           $http.put('/update-user', { id: ctrl.user._id, displayName: ctrl.user.displayName, email: ctrl.user.email, role: ctrl.user.role}).then(function(data, status) {
               getUsers();
+              alertify.alert(ctrl.user.displayName +' updated!');
+              $mdDialog.hide();
+          });
+      };
+      ctrl.resetUser = function() {
+          $http.post('/resetpassword', { id: ctrl.user._id}).then(function(data, status) {
+              alertify.alert('Password reset for ' + ctrl.user.displayName +'!');
               $mdDialog.hide();
           });
       };

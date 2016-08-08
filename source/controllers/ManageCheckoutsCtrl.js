@@ -42,7 +42,7 @@ angular.module('MyApp')
       ctrl.ForceCheckIn = function (deviceId) {
           alertify.confirm("Are you sure you want to force check-in?", function (e) {
           if (e) {
-              $http.post('/checkindevice', {id: deviceId}).then(function(data, status) {
+              $http.post('/force-checkin', {id: deviceId}).then(function(data, status) {
                   getDevices();
                   toastr.success('Checked in device!');
               });

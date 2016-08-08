@@ -41,7 +41,7 @@
                     <td>{{device.device_model}}</td>
                     <td>{{device.location}}</td>
                     <td>{{device.duration}} {{device.duration_type}}</td>
-                    <td>{{device.checked_out_user}} <i ng-if="device.checked_out_user == ctrl.currentUser" class="ion-checkmark-round icon-big check-in" ng-click="ctrl.checkInDevice(device._id); $event.stopPropagation()"></i></td>
+                    <td>{{device.checked_out_user}} <i ng-if="device.checked_out_user_id == ctrl.currentUser" class="ion-checkmark-round icon-big check-in" ng-click="ctrl.checkInDevice(device._id); $event.stopPropagation()"></i></td>
                 </div>
                 </td>
             </tr>
