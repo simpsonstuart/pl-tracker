@@ -9,6 +9,7 @@ angular.module('MyApp')
             .then(function(response) {
                 $http.get('/devices').success(function (data) {
                     ctrl.currentUser = response.data._id;
+                    ctrl.currentUserName = response.data.displayName;
                 });
             })
             .catch(function(response) {
@@ -31,7 +32,7 @@ angular.module('MyApp')
         ctrl.checkInDevice = function (deviceId) {
             alertify.confirm("Are you sure you want to check-in the device?", function (e) {
                 if (e) {
-                    $http.post('/checkindevice', {id: deviceId, user: ctrl.currentUser}).then(function(data, status) {
+                    $http.post('/checkindevice', {id: deviceId, user: ctrl.currentUser, user_name: ctrl.currentUserName}).then(function(data, status) {
                         getDevices();
                         alertify.alert('Device Checked-In');
                     });

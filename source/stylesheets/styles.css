@@ -752,3 +752,36 @@ label {
 .padding-top {
     padding-top: 30px;
 }
+html {
+    background-color: #D8D8D8;
+}
+.stats {
+    width: 90%;
+    margin: auto;
+    min-height: 250px;
+    background-color: #f6f6f6;
+    padding: 20px;
+    margin-top: 30px;
+    border-color: #cfd9D7;
+    border-radius: 2px;
+    box-shadow: 0 8px 17px rgba(0, 0, 0, .2);
+}
+.stat_span {
+    float: left;
+    height: 80px;
+    margin-left: 40px;
+    width: 170px;
+}
+.stats_spacer {
+    width: 630px;
+    height: 140px;
+    margin: auto;
+}
+.stat_text {
+    width: 100px;
+    text-align: center;
+}
+.stat-extra {
+    font-size: 20px;
+    font-weight: bold;
+}

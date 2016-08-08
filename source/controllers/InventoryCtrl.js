@@ -7,6 +7,8 @@ angular.module('MyApp')
       getAuth();
       getDevices();
       getUsers();
+      getStats();
+      getCounts();
       ctrl.selectedSort = 'device_name';
       ctrl.selectedSortUser = 'displayName';
       
@@ -50,6 +52,18 @@ angular.module('MyApp')
       function getUsers() {
           $http.get('/users').success(function (data) {
               ctrl.users = data;
+          });
+      }
+      //gets list of users
+      function getStats() {
+          $http.get('/get-stats').then(function (response) {
+              ctrl.stats = response.data;
+          });
+      }
+      //gets list of users
+      function getCounts() {
+          $http.get('/get-count').then(function (response) {
+              ctrl.counts = response.data;
           });
       }
 

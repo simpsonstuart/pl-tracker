@@ -35,7 +35,7 @@
                         <td>{{device.device_name}}</td>
                         <td>{{device.device_type}}</td>
                         <td>{{device.checked_out_user}}</td>
-                        <td><i class="ion-checkmark-round icon-big" ng-click="ctrl.ForceCheckIn(device._id); $event.stopPropagation()"></i></td>
+                        <td><i class="ion-checkmark-round icon-big" ng-click="ctrl.ForceCheckIn(device._id, device.checked_out_user, device.checked_out_user_id); $event.stopPropagation()"></i></td>
                     </div>
                 </tr>
             </table>

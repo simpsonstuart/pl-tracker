@@ -50,5 +50,44 @@
               </div>
           </div>
       </div>
+      <div class="stats_panel">
+          <div class="stats">
+              <h2 class="ion-stats-bars"> Statistics</h2>
+              <div class="stats_spacer">
+                  <span class="stat_span">
+                  <h3 class="stat_text">Devices</h3>
+                      <p class="stat_text stat-extra">{{ctrl.counts.device_count}}</p>
+              </span>
+                <span class="stat_span">
+                  <h3 class="stat_text">Users</h3>
+                    <p class="stat_text stat-extra">{{ctrl.counts.user_count}}</p>
+              </span>
+               <span class="stat_span">
+                  <h3 class="stat_text">Checkouts</h3>
+                   <p class="stat_text stat-extra">{{ctrl.counts.free_count}}</p>
+              </span>
+              </div>
+          </div>
+          <div class="devices_list" >
+              <h2><i class="ion-ios-information-outline"></i> Recent Events Log</h2>
+              <table>
+                  <tr class="special_tr">
+                      <th><i class="ion-compose"></i> Event Type</th>
+                      <th><i class="ion-clock"></i> Time</th>
+                      <th><i class="ion-ios-person-outline"></i> User</th>
+                      <th><i class="ion-ios-stopwatch-outline"></i> Duration</th>
+                  </tr>
+                  <tr ng-repeat="stat in ctrl.stats" ui-sref="edit-device({device: device})" class="device-list">
+                      <div class="text">
+                          <td>{{stat.type}}</td>
+                          <td>{{stat.time * 1000 | date:'yyyy-MM-dd HH:mm:ss Z'}}</td>
+                          <td>{{stat.user_name}}</td>
+                          <td>{{stat.duration}}</td>
+                      </div>
+                  </tr>
+              </table>
+              <h2 ng-if="ctrl.showNoCheckouts" class="no_checkouts"><i class="ion-information-circled"></i> No Devices Checked Out!</h2>
+          </div>
+      </div>
   </div>
 </div>

@@ -78,6 +78,10 @@
                             <option value="Maintainer">Maintainer</option>
                         </select>
                         </div>
+                            <div class="form-group">
+                                <label for="allow">Allowed Devices</label>
+                                <input class="input_style" type="text" ng-model="ctrl.allowedDevices" placeholder="Allowed Devices" id="allow" required>
+                            </div>
                         </form>
                     <button class="btn btn-primary btn-lg button_regular" ng-click="ctrl.cancel()">Cancel</button>
                     <button class="btn btn-primary btn-lg button_regular" ng-disabled="add_form.$invalid" ng-click="ctrl.postaddUser()">Add</button>
@@ -106,6 +110,10 @@
                                 <option value="Standard">Standard</option>
                                 <option value="Maintainer">Maintainer</option>
                             </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="allowed">Allowed Devices</label>
+                            <input class="input_style" type="text" ng-model="ctrl.user.allowed_devices" placeholder="Allowed Devices" id="allowed" required>
                         </div>
                         <button class="btn btn-primary btn-lg button_regular" ng-click="ctrl.resetUser()">Reset Password</button>
                     </form>

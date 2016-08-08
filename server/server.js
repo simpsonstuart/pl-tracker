@@ -24,6 +24,9 @@ var userSchema = new mongoose.Schema({
   bitbucket: String,
   google: String,
   github: String,
+  checkout_count: String, 
+  last_checkout: String,
+  allowed_devices: String,
 });
 
 var devicesSchema = new mongoose.Schema({
@@ -41,7 +44,19 @@ var devicesSchema = new mongoose.Schema({
   duration: String,
   duration_type: String,
   checked_out_user: String,
-  checked_out_user_id: String
+  checked_out_user_id: String,
+  last_checked_out: String,
+  last_checked_out_user: String,
+  last_check_in: String,
+});
+
+var statsSchema = new mongoose.Schema({
+   type: String,
+   time: String,
+   user_name: String,
+   user_id: String,
+   device_id: String,
+   duration: String,
 });
 
 userSchema.pre('save', function(next) {
@@ -65,6 +80,7 @@ userSchema.methods.comparePassword = function(password, done) {
 
 var User = mongoose.model('User', userSchema);
 var Devices = mongoose.model('Devices', devicesSchema);
+var Stats = mongoose.model('Stats', statsSchema);
 
 mongoose.connect(config.MONGO_URI);
 mongoose.connection.on('error', function(err) {
@@ -215,7 +231,8 @@ app.post('/auth/signup', function(req, res) {
       displayName: req.body.displayName,
       email: req.body.email,
       password: req.body.password,
-      role: 'Deactivated'
+      role: 'Deactivated',
+      allowed_devices: '2'
     });
     user.save(function(err, result) {
       if (err) {
@@ -290,6 +307,7 @@ app.post('/auth/google', function(req, res) {
                         user.role = 'Deactivated';
                     }
                     user.email = profile.email;
+                    user.allowed_devices = '2';
                     user.save(function(err) {
                     var token = createJWT(user);
                     res.send({ token: token });
@@ -361,6 +379,7 @@ app.post('/auth/github', function(req, res) {
                         user.role = 'Deactivated';
                     }
                     user.email = profile.email;
+                    user.allowed_devices = '2';
                     user.save(function() {
                         var token = createJWT(user);
                         res.send({ token: token });
@@ -389,6 +408,9 @@ app.post('/savedevices', ensureAdmin, function(req,res) {
         duration_type: req.body.duration_type,
         checked_out_user : 'N/A',
         checked_out_user_id: '',
+        last_checked_out: '' ,
+        last_checked_out_user: '',
+        last_check_in: '',
         done : false
     }, function(err, devices) {
         if (err)
@@ -409,10 +431,30 @@ app.post('/checkout', ensureAuthenticated, function(req, res) {
     if (!Devices) {
       return res.status(400).send({ message: 'Device not found' });
     }
+      User.findById(req.body.checked_out_user_id, function(err, User) {
+          if (!User) {
+              return res.status(400).send({ message: 'User not found' });
+          }
+          User.checkout_count = User.checkout_count++;
+          User.last_checkout = moment().unix();
+          User.save(function(err) {
+          });
+      });
+      Stats.create({
+          type: 'Checkout',
+          time : moment().unix(),
+          user_name : req.body.checked_out_user,
+          user_id : req.body.checked_out_user_id,
+          device_id : req.body.id,
+          duration : req.body.duration,
+          done : false
+      });
     Devices.checked_out_user = req.body.checked_out_user;
     Devices.checked_out_user_id = req.body.checked_out_user_id;
     Devices.duration = req.body.duration;
     Devices.duration_type = req.body.duration_type;
+    Devices.last_checked_out = moment().unix();
+    Devices.last_checked_out_user = req.body.checked_out_user;
     Devices.save(function(err) {
       res.status(200).end();
     });
@@ -426,10 +468,20 @@ app.post('/checkindevice', ensureAuthenticated, function(req, res) {
             return res.status(400).send({ message: 'Device not found' });
         }
         if (req.body.user === Devices.checked_out_user_id) {
+            Stats.create({
+                type: 'Check-in',
+                time : moment().unix(),
+                user_name : req.body.user_name,
+                user_id : req.body.user,
+                device_id : req.body.id,
+                duration : 'N/A',
+                done : false
+            });
             Devices.checked_out_user = 'N/A';
             Devices.checked_out_user_id = '';
             Devices.duration = '';
             Devices.duration_type = '';
+            Devices.last_check_in = moment.unix();
             Devices.save(function(err) {
                 res.status(200).end();
             });
@@ -444,10 +496,20 @@ app.post('/force-checkin', ensureAuthenticated, ensureAdmin, function(req, res) 
         if (!Devices) {
             return res.status(400).send({ message: 'Device not found' });
         }
+        Stats.create({
+            type: 'Forced Check-in',
+            time : moment().unix(),
+            user_name : req.body.user_name,
+            user_id : req.body.user_id,
+            device_id : req.body.id,
+            duration : 'N/A',
+            done : false
+        });
             Devices.checked_out_user = 'N/A';
             Devices.checked_out_user_id = '';
             Devices.duration = '';
             Devices.duration_type = '';
+            Devices.last_check_in = moment.unix();
             Devices.save(function(err) {
                 res.status(200).end();
             });
@@ -529,7 +591,8 @@ app.post('/adduser', ensureAuthenticated, ensureAdmin, function(req,res) {
             displayName: req.body.displayName,
             email: req.body.email,
             password: 'GridL0ckd',
-            role: req.body.role
+            role: req.body.role,
+            allowed_devices: req.body.allowed_devices,
         });
         user.save(function(err, result) {
             if (err) {
@@ -542,7 +605,6 @@ app.post('/adduser', ensureAuthenticated, ensureAdmin, function(req,res) {
 
 //endpoint for edit user
 app.put('/update-user', ensureAuthenticated, ensureAdmin, function(req, res) {
-    console.log(req.body.id);
     User.findById(req.body.id, function(err, User) {
         if (!User) {
             return res.status(400).send({ message: 'User not found' });
@@ -550,6 +612,7 @@ app.put('/update-user', ensureAuthenticated, ensureAdmin, function(req, res) {
         User.displayName = req.body.displayName;
         User.email = req.body.email;
         User.role = req.body.role;
+        User.allowed_devices = req.body.allowed_devices;
         User.save(function(err) {
             res.status(200).end();
         });
@@ -570,7 +633,6 @@ app.post('/resetpassword-user', ensureAuthenticated, function(req,res) {
         if (!User) {
             return res.status(400).send({message: 'User not found'});
         }
-        console.log(User);
         User.comparePassword(req.body.old_password, function (err, isMatch) {
             if (isMatch) {
                 User.password = req.body.password;
@@ -596,29 +658,44 @@ app.post('/resetpassword', ensureAuthenticated, ensureAdmin, function(req,res) {
     });
 });
 
-//gets list of devices from database
+// gets list of devices from database
 app.get('/devices',  ensureAuthenticated, function(req,res){
-        // use mongoose to get all devices in the database
         Devices.find(function(err, devices) {
-
-            // if there is an error retrieving, send the error. nothing after res.send(err) will execute
             if (err)
                 res.send(err);
-
-            res.json(devices); // return all devices in JSON format
+            res.json(devices);
         });
 });
 
-//gets list of users from database
+// gets list of users from database
 app.get('/users', ensureAuthenticated, ensureAdmin, function(req,res){
-    // use mongoose to get all users in the database
     User.find(function(err, users) {
-
-        // if there is an error retrieving, send the error. nothing after res.send(err) will execute
         if (err)
             res.send(err);
 
-        res.json(users); // return all users in JSON format
+        res.json(users);
+    });
+});
+// gets list of check-ins and checkouts
+app.get('/get-stats', ensureAuthenticated, ensureAdmin, function(req,res){
+    Stats.find(function(err, stats) {
+        if (err)
+            res.send(err);
+        res.json(stats);
+    }).sort({time: -1}).limit(15);
+});
+// get counts for stats
+app.get('/get-count', ensureAuthenticated, ensureAdmin, function(req,res){
+    Devices.count(function(error, deviceCount) {
+        User.count(function(error, count) {
+            Devices.count({checked_out_user_id: ''}, function (err, freeCount) {
+            var counts = {};
+            counts.device_count = deviceCount;
+            counts.user_count = count;
+            counts.free_count = deviceCount - freeCount;
+            res.json(counts);
+        });
+    });
     });
 });
 
@@ -648,7 +725,7 @@ app.post('/auth/unlink', ensureAuthenticated, function(req, res) {
 
 /*
  |--------------------------------------------------------------------------
- | Start the Server and add default user if not found
+ | Start the Server
  |--------------------------------------------------------------------------
  */
 app.listen(app.get('port'), function() {

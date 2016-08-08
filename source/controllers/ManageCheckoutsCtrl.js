@@ -39,10 +39,10 @@ angular.module('MyApp')
               }
           });
       }
-      ctrl.ForceCheckIn = function (deviceId) {
+      ctrl.ForceCheckIn = function (deviceName, deviceId, userName, userId) {
           alertify.confirm("Are you sure you want to force check-in?", function (e) {
           if (e) {
-              $http.post('/force-checkin', {id: deviceId}).then(function(data, status) {
+              $http.post('/force-checkin', { id: deviceId, user_name: userName, user_id: userId }).then(function(data, status) {
                   getDevices();
                   toastr.success('Checked in device!');
               });

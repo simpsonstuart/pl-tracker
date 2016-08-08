@@ -75,14 +75,14 @@ angular.module('MyApp')
           $mdDialog.hide();
       };
       ctrl.postaddUser = function() {
-          $http.post('/adduser', { displayName: ctrl.name, email: ctrl.email, role: ctrl.role}).then(function(data, status) {
+          $http.post('/adduser', { displayName: ctrl.name, email: ctrl.email, role: ctrl.role, allowed_devices: ctrl.allowedDevices}).then(function(data, status) {
               getUsers();
               alertify.alert('User '+ ctrl.name + ' added!');
               $mdDialog.hide();
           });
       };
       ctrl.posteditUser = function() {
-          $http.put('/update-user', { id: ctrl.user._id, displayName: ctrl.user.displayName, email: ctrl.user.email, role: ctrl.user.role}).then(function(data, status) {
+          $http.put('/update-user', { id: ctrl.user._id, displayName: ctrl.user.displayName, email: ctrl.user.email, role: ctrl.user.role, allowed_devices: ctrl.user.allowed_devices}).then(function(data, status) {
               getUsers();
               alertify.alert(ctrl.user.displayName +' updated!');
               $mdDialog.hide();
