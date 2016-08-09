@@ -684,6 +684,14 @@ app.get('/get-stats', ensureAuthenticated, ensureAdmin, function(req,res){
         res.json(stats);
     }).sort({time: -1}).limit(15);
 });
+// gets full log list
+app.get('/get-full-stats', ensureAuthenticated, ensureAdmin, function(req,res){
+    Stats.find(function(err, stats) {
+        if (err)
+            res.send(err);
+        res.json(stats);
+    }).sort({time: -1})
+});
 // get counts for stats
 app.get('/get-count', ensureAuthenticated, ensureAdmin, function(req,res){
     Devices.count(function(error, deviceCount) {

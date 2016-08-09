@@ -86,7 +86,7 @@
                       </div>
                   </tr>
               </table>
-              <h2 ng-if="ctrl.showNoCheckouts" class="no_checkouts"><i class="ion-information-circled"></i> No Devices Checked Out!</h2>
+              <button type="button" ng-csv="ctrl.getStatsFull()" csv-header="['id', 'type', 'time', 'user name', 'user id', 'device_id', 'duration']" filename="vynl-tracker-log.csv">Export as CSV</button>
           </div>
       </div>
   </div>

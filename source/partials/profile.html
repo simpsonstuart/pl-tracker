@@ -40,7 +40,7 @@
         <div class="panel-heading">Password</div>
         <div class="panel-body">
             <legend class="padding-top"><i class="ion-unlocked"></i> Change Password</legend>
-            <form method="post" ng-submit="ctrl.updatePassword()">
+            <form method="post" ng-submit="ctrl.updatePassword()" name="password_reset_form">
                 <div class="form-group">
                     <label class="control-label"><i class="ion-locked"></i> Current Password</label>
                     <input type="password" class="form-control" ng-model="ctrl.oldPassword" />
@@ -49,7 +49,7 @@
                     <label class="control-label"><i class="ion-locked"></i> New Password</label>
                     <input type="password" class="form-control" ng-model="ctrl.newPassword" />
                 </div>
-                <button class="btn btn-lg btn-success">Change</button>
+                <button class="btn btn-lg btn-success" ng-disabled="password_reset_form.$invalid">Change</button>
             </form>
         </div>
     </div>

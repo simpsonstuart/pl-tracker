@@ -1,4 +1,4 @@
-angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.router', 'satellizer', 'ngMaterial', 'ngAlertify'])
+angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.router', 'satellizer', 'ngMaterial', 'ngAlertify', 'ngCsv'])
   .config(function($stateProvider, $urlRouterProvider, $authProvider) {
     $stateProvider
       .state('device-inventory', {

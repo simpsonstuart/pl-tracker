@@ -6,7 +6,6 @@ angular.module('MyApp')
       ctrl.showEditDevice = false;
       getAuth();
       getDevices();
-      getUsers();
       getStats();
       getCounts();
       ctrl.selectedSort = 'device_name';
@@ -34,43 +33,44 @@ angular.module('MyApp')
           getDevices();
       };
 
-      //removes user from list
+      // removes user from list
       ctrl.removeUser = function(id) {
           $http.post('/deleteuser',{id: id}).success(function(data, status) {
           });
           getUsers();
       };
 
-      //gets list of devices
+      // gets list of devices
       function getDevices() {
           $http.get('/devices').success(function (data) {
               ctrl.devices = data;
           });
       }
-
-      //gets list of users
-      function getUsers() {
-          $http.get('/users').success(function (data) {
-              ctrl.users = data;
-          });
-      }
-      //gets list of users
+      
+      // gets list of users
       function getStats() {
           $http.get('/get-stats').then(function (response) {
               ctrl.stats = response.data;
           });
       }
-      //gets list of users
+      // gets list of users
       function getCounts() {
           $http.get('/get-count').then(function (response) {
               ctrl.counts = response.data;
           });
       }
 
-      //set role of user
+      // set role of user
       ctrl.setRole = function(id, role) {
           $http.post('/setabstractionrole',{id: id, role: role}).success(function(data, status) {
           });
           getUsers();
+      };
+
+      // get full logs
+      ctrl.getStatsFull = function() {
+         return $http.get('/get-full-stats').then(function(response) {
+              return response.data;
+          });
       };
   });
