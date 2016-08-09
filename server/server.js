@@ -696,6 +696,17 @@ app.get('/get-full-stats', ensureAuthenticated, ensureAdmin, function(req,res){
         res.json(stats);
     }).sort({time: -1})
 });
+// drop all stats
+app.delete('/drop-stats', ensureAuthenticated, ensureAdmin, function(req,res){
+    Stats.remove({}, function(err) {
+            if (err) {
+                res.send(err);
+            } else {
+                res.status(200).end();
+            }
+        }
+    );
+});
 // get counts for stats
 app.get('/get-count', ensureAuthenticated, ensureAdmin, function(req,res){
     Devices.count(function(error, deviceCount) {

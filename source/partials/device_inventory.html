@@ -87,6 +87,7 @@
                   </tr>
               </table>
               <button type="button" ng-csv="ctrl.getStatsFull()" csv-header="['id', 'type', 'time', 'user name', 'user id', 'device_id', 'duration']" filename="vynl-tracker-log.csv">Export as CSV</button>
+              <button type="button" ng-click="ctrl.dropStats()">Clear Statistics</button>
           </div>
       </div>
   </div>

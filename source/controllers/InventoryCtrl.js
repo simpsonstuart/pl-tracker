@@ -1,5 +1,5 @@
 angular.module('MyApp')
-  .controller('InventoryCtrl', function($scope, $auth, toastr, $http, Account, $state) {
+  .controller('InventoryCtrl', function($scope, $auth, toastr, $http, Account, $state, alertify) {
       var ctrl            = this;
       ctrl.hideDeviceList = false;
       ctrl.showAddDevice = false;
@@ -43,4 +43,15 @@ angular.module('MyApp')
               return response.data;
           });
       };
+      ctrl.dropStats = function () {
+          alertify.confirm("Are you sure you want to clear all statistics?", function (e) {
+              if (e) {
+                  $http.delete('/drop-stats').then(function () {
+                      getStats();
+                      alertify.alert('Statistics Cleared!')
+                  });
+              } else {
+              }
+          });
+      }
   });
