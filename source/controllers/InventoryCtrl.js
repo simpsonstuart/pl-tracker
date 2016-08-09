@@ -5,7 +5,6 @@ angular.module('MyApp')
       ctrl.showAddDevice = false;
       ctrl.showEditDevice = false;
       getAuth();
-      getDevices();
       getStats();
       getCounts();
       ctrl.selectedSort = 'device_name';
@@ -25,47 +24,18 @@ angular.module('MyApp')
                   toastr.error(response.data.message, response.status);
               })
       }
-
-      //removes device from list
-      ctrl.removeItem = function(id) {
-          $http.post('/deletedevice',{id: id}).success(function(data, status) {
-          });
-          getDevices();
-      };
-
-      // removes user from list
-      ctrl.removeUser = function(id) {
-          $http.post('/deleteuser',{id: id}).success(function(data, status) {
-          });
-          getUsers();
-      };
-
-      // gets list of devices
-      function getDevices() {
-          $http.get('/devices').success(function (data) {
-              ctrl.devices = data;
-          });
-      }
-      
-      // gets list of users
+      // gets stats log
       function getStats() {
           $http.get('/get-stats').then(function (response) {
               ctrl.stats = response.data;
           });
       }
-      // gets list of users
+      // gets counts
       function getCounts() {
           $http.get('/get-count').then(function (response) {
               ctrl.counts = response.data;
           });
       }
-
-      // set role of user
-      ctrl.setRole = function(id, role) {
-          $http.post('/setabstractionrole',{id: id, role: role}).success(function(data, status) {
-          });
-          getUsers();
-      };
 
       // get full logs
       ctrl.getStatsFull = function() {

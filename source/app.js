@@ -44,24 +44,6 @@ angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.
                 loginRequired: loginRequired
             }
         })
-        .state('add-device', {
-            url: '/add-device',
-            templateUrl: 'partials/add-device.html',
-            controller: 'AddDeviceCtrl',
-            controllerAs: 'ctrl',
-            resolve: {
-                loginRequired: loginRequired
-            }
-        })
-        .state('add-user', {
-            url: '/add-user',
-            templateUrl: 'partials/add-user.html',
-            controller: 'AddUserCtrl',
-            controllerAs: 'ctrl',
-            resolve: {
-                loginRequired: loginRequired
-            }
-        })
         .state('manage-devices', {
             url: '/manage-devices',
             templateUrl: 'partials/manage-devices.html',
@@ -84,18 +66,6 @@ angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.
             url: '/manage-checkouts',
             templateUrl: 'partials/manage-checkouts.html',
             controller: 'ManageCheckoutsCtrl',
-            controllerAs: 'ctrl',
-            resolve: {
-                loginRequired: loginRequired
-            }
-        })
-        .state('edit-device', {
-            url: '/edit-device',
-            params: {
-                device: ''
-            },
-            templateUrl: 'partials/edit-device.html',
-            controller: 'EditDeviceCtrl',
             controllerAs: 'ctrl',
             resolve: {
                 loginRequired: loginRequired

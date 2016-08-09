@@ -24,7 +24,7 @@ var userSchema = new mongoose.Schema({
   bitbucket: String,
   google: String,
   github: String,
-  checkout_count: String, 
+  checkout_count: Number,
   last_checkout: String,
   allowed_devices: String,
 });
@@ -435,7 +435,11 @@ app.post('/checkout', ensureAuthenticated, function(req, res) {
           if (!User) {
               return res.status(400).send({ message: 'User not found' });
           }
-          User.checkout_count = User.checkout_count++;
+          if(User.checkout_count >= 1) {
+              User.checkout_count = User.checkout_count +1;
+          } else {
+              User.checkout_count = 1;
+          }
           User.last_checkout = moment().unix();
           User.save(function(err) {
           });
