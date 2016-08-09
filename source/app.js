@@ -1,11 +1,11 @@
 angular.module('MyApp', ['ngResource', 'ngMessages', 'ngAnimate', 'toastr', 'ui.router', 'satellizer', 'ngMaterial', 'ngAlertify', 'ngCsv'])
   .config(function($stateProvider, $urlRouterProvider, $authProvider) {
     $stateProvider
-      .state('device-inventory', {
-        url: '/device-inventory',
-        controller: 'InventoryCtrl',
+      .state('administration', {
+        url: '/administration',
+        controller: 'AdministrationCtrl',
         controllerAs: 'ctrl',
-        templateUrl: 'partials/device_inventory.html',
+        templateUrl: 'partials/administration.html',
           resolve: {
               loginRequired: loginRequired
           }

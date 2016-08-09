@@ -1,5 +1,5 @@
 angular.module('MyApp')
-  .controller('InventoryCtrl', function($scope, $auth, toastr, $http, Account, $state, alertify) {
+  .controller('AdministrationCtrl', function($scope, $auth, toastr, $http, Account, $state, alertify) {
       var ctrl            = this;
       ctrl.hideDeviceList = false;
       ctrl.showAddDevice = false;
